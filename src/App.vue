@@ -11,6 +11,7 @@
 <script>
 import Navigation from './components/Navigation/index.vue';
 import Breadcrumbs from './components/Breadcrumbs/index.vue';
+import { formatDate, getWeek } from './utils/index';
 export default {
   data() {
     return {
@@ -32,6 +33,25 @@ export default {
         this.breadcrumbs[index].type = 'success';
       }
     },
+    // 初始化参数
+    initParams() {
+      let title = `${formatDate(new Date(), 'MM-dd')} ${getWeek()}`;
+      if (getWeek() === '星期六' || getWeek() === '星期日') {
+        this.$notify({
+          title,
+          message: '加班辛苦了!🚵',
+        });
+      } else {
+        this.$notify({
+          title,
+          message: '今天也要加油呀!🎉',
+        });
+      }
+    },
+  },
+  mounted() {
+    // 初始化参数
+    this.initParams();
   },
   components: { Navigation, Breadcrumbs },
 };
