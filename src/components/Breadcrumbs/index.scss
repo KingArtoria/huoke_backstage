@@ -1,0 +1,13 @@
+.breadcrumbs {
+  height: 0.425rem;
+  width: 100%;
+  background: #fff;
+  border-bottom: 0.0125rem solid #d8dce5;
+  box-shadow: 0 0.0125rem 0.0375rem 0 rgb(0 0 0 / 12%), 0 0 0.0375rem 0 rgb(0 0 0 / 4%);
+  display: flex;
+  align-items: center;
+  .breadcrumbs_1 {
+    margin: 0 0.0625rem;
+    cursor: pointer;
+  }
+}
