@@ -3,8 +3,8 @@
     <Navigation @handleOpen="handleOpen" />
     <div class="app_1">
       <Breadcrumbs :breadcrumbs="breadcrumbs" />
+      <router-view />
     </div>
-    <!-- <router-view /> -->
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       // 面包屑数组
-      breadcrumbs: [],
+      breadcrumbs: [{ key: '首页', type: 'success' }],
     };
   },
   methods: {

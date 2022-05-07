@@ -1,6 +1,6 @@
 <template>
   <div class="breadcrumbs">
-    <el-tag size="small" v-for="(item, index) in breadcrumbs" :key="index" closable :type="item.type" hit disable-transitions class="breadcrumbs_1" @click="handleClick(item)" @close="handleClose(item)">{{ item.key }} </el-tag>
+    <el-tag size="small" v-for="(item, index) in breadcrumbs" :key="index" :closable="item.key != '首页'" :type="item.type" hit disable-transitions class="breadcrumbs_1" @click="handleClick(item)" @close="handleClose(item)" effect="dark">{{ item.key }} </el-tag>
   </div>
 </template>
 
@@ -19,8 +19,8 @@ export default {
       if (index > -1) {
         this.breadcrumbs.splice(index, 1);
         // 如果删除的type为success，则将前一个的type改为success
-        if (item.type === 'success' && this.breadcrumbs.length > 0) {
-          if (index > 0) {
+        if (item.type === 'success') {
+          if (index == this.breadcrumbs.length) {
             this.breadcrumbs[index - 1].type = 'success';
           } else {
             this.breadcrumbs[index].type = 'success';
