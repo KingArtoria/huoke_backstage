@@ -67,7 +67,7 @@ const list = {
      * @param id 删除的主键id
      * @param isBatchDelete 是否批量删除，如果是则参数用数组
      */
-    del(id, isBatchDelete = true) {
+    del(param) {
       let delConfirmText = '确定删除吗' // 删除提示文字
       let delSuccessText = '删除成功' // 删除成功文字
       if (this.mixinParams) {
@@ -79,10 +79,7 @@ const list = {
         cancelButtonText: '取消',
         type: 'warning'
       }).then((res) => {
-        const delParam = isBatchDelete
-          ? Array.isArray(id) ? id : [id]
-          : id
-        this.mixinParams.del(delParam).then(() => {
+        this.mixinParams.del(param).then(() => {
           this.$message.success(delSuccessText || '删除成功')
           this.fetchData()
           // 如果需要在删除后进行某些处理操作，可以在Methods里定义delCallback方法

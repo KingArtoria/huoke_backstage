@@ -1,24 +1,36 @@
 <template>
   <div class="app-page">
     <header class="app-search">
-      <el-button type="primary" @click="$refs['form'].open()">添加</el-button>
+      <el-button type="primary" @click="$refs.form.open()">添加</el-button>
     </header>
     <el-table
       v-loading="tableLoading"
       :data="tableData"
-      :header-cell-style="headerCellStyle"
+      :header-cell-style="_headerCellStyle"
       stripe
       border
       element-loading-spinner="el-icon-loading"
       element-loading-text="加载中，请稍候……"
     >
       <el-table-column label="角色ID" prop="id"></el-table-column>
-      <el-table-column label="角色名称" prop="name"></el-table-column>
+      <el-table-column label="角色名称" prop="role_name"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="$refs.form.open()">编辑</el-button>
-          <el-button type="text" @click="$refs.form.open()">删除</el-button>
-          <el-button type="text" @click="$refs.form.open()">分配权限</el-button>
+          <el-button type="text" @click="$refs.form.open(scope.row)"
+            >编辑</el-button
+          >
+          <el-button type="text" @click="del({ id: scope.row.id })"
+            >删除</el-button
+          >
+          <el-button
+            type="text"
+            @click="
+              $router.push(
+                `/role/bind?id=${scope.row.id}&rule=${scope.row.rule}`
+              )
+            "
+            >分配权限</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -41,13 +53,15 @@
 <script>
 import listMixin from "@/mixins/listMixin";
 import RoleForm from "./role-form.vue";
-import { getRoleList } from "../../../utils/api";
+import { getRoleList, delRole } from "../../../utils/api";
 export default {
   mixins: [listMixin],
   components: { RoleForm },
   data() {
     return {
-      tableData: [{ content: "sdfsdfs" }],
+      mixinParams: {
+        del: delRole,
+      },
     };
   },
   methods: {
@@ -55,7 +69,8 @@ export default {
     fetchData() {
       getRoleList(this.searchParams).then((res) => {
         this.hideLoading();
-        this.tableData = res.data;
+        this.tableData = res.data.rows;
+        this.total = res.data.total;
       });
       this.showLoading();
     },

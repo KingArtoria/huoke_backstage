@@ -7,9 +7,9 @@
     :before-close="close"
   >
     <el-form ref="form" :model="formData" :rules="rules" label-width="100px">
-      <el-form-item label="角色名称" prop="name">
+      <el-form-item label="角色名称" prop="role_name">
         <el-input
-          v-model="formData.name"
+          v-model="formData.role_name"
           placeholder="请输入角色名称"
           maxlength="150"
         />
@@ -27,32 +27,38 @@
 
 <script>
 import formMixin from "@/mixins/formMixin";
+import { saveRole, updateRole } from '@/utils/api'
 export default {
-  name: "groupForm",
+  role_name: "groupForm",
   mixins: [formMixin],
   data() {
     return {
       formData: {
-        name: "", // 角色名称
+        id: null,
+        role_name: "", // 角色名称
       },
       rules: {
-        name: [
+        role_name: [
           { required: true, message: "请输入角色名称", trigger: "blur" },
         ],
       },
     };
   },
   methods: {
-    open() {
+    open(row) {
       this.dialog.show = true;
       this.dialog.loading = false;
+      if (row) {
+        this.formData = row
+      }
     },
     saveOrUpdate() {
-      // savePublish(this.formData).then(() => {
-      //   this.$message.success("添加成功");
-      //   this.$emit("update-data");
-      //   this.close();
-      // });
+      const promise = this.formData.id ? updateRole(this.formData) : saveRole(this.formData)
+      promise.then(() => {
+        this.$message.success("操作成功");
+        this.$emit("update-data");
+        this.close();
+      });
     },
   },
 };

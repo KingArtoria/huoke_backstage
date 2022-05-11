@@ -37,6 +37,7 @@ export const delRole = data => {
   return request({
     method: 'POST',
     url: '/role/roleDel',
+    data: qs.stringify(data),
   });
 };
 /* 管理员列表 */
@@ -44,6 +45,14 @@ export const getUserList = data => {
   return request({
     method: 'POST',
     url: '/user/index',
+    data: qs.stringify(data),
+  });
+};
+/* 获取和设置角色权限 */
+export const bindRole = data => {
+  return request({
+    method: 'POST',
+    url: '/role/giveAccess',
     data: qs.stringify(data),
   });
 };
