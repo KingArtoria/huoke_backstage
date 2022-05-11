@@ -53,6 +53,7 @@ export default {
   },
   created() {
     Vue.prototype._tree = JSON.parse(localStorage.getItem('tree'));
+    console.log(this._tree);
   },
   watch: {
     $route(to, from) {
