@@ -6,7 +6,7 @@ const service = axios.create({
 })
 service.interceptors.request.use(
   config => {
-    config.headers['token'] = localStorage.getItem('item')
+    config.headers['token'] = localStorage.getItem('token')
     return config
   },
 )

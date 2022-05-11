@@ -16,12 +16,23 @@
 </template>
 
 <script>
+import { getUserList } from '../../../utils/api';
 export default {
   data() {
     return {};
   },
-  methods: {},
-  mounted() {},
+  methods: {
+    // 管理员列表
+    getUserList() {
+      getUserList().then(res => {
+        console.log(res);
+      });
+    },
+  },
+  mounted() {
+    // 管理员列表
+    this.getUserList();
+  },
 };
 </script>
 

@@ -5,7 +5,7 @@
         <i class="el-icon-monitor"></i>
         <span slot="title">首页</span>
       </el-menu-item>
-      <el-submenu index="1" v-for="(item, index) in _tree" :key="index">
+      <el-submenu :index="item.node_name" v-for="(item, index) in _tree" :key="index">
         <template slot="title">
           <span>{{ item.node_name }}</span>
         </template>
