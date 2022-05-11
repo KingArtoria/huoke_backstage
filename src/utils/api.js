@@ -56,3 +56,19 @@ export const bindRole = data => {
     data: qs.stringify(data),
   });
 };
+/* 删除管理员 */
+export const userdel = data => {
+  return request({
+    method: 'POST',
+    url: '/user/userdel',
+    data: qs.stringify(data),
+  });
+};
+/* 修改管理员 */
+export const useredit = data => {
+  return request({
+    method: 'POST',
+    url: '/user/useredit',
+    data: qs.stringify(data),
+  });
+};
