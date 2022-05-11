@@ -1,8 +1,8 @@
 import axios from 'axios'
 const service = axios.create({
-  baseURL: 'https://appv41.bdhuoke.com/api',
+  baseURL: 'http://nad.bdhuoke.com/admin',
   timeout: 10000,
-  headers: { "Content-Type": 'application/x-www-form-urlencoded' }
+  // headers: { "Content-Type": 'application/x-www-form-urlencoded' }
 })
 service.interceptors.response.use(
   response => {

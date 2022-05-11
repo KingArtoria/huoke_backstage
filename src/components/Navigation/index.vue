@@ -5,14 +5,11 @@
         <i class="el-icon-monitor"></i>
         <span slot="title">首页</span>
       </el-menu-item>
-      <el-submenu index="1">
+      <el-submenu index="1" v-for="(item, index) in _tree" :key="index">
         <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>导航一</span>
+          <span>{{ item.node_name }}</span>
         </template>
-        <el-menu-item index="1-1">选项1</el-menu-item>
-        <el-menu-item index="1-2">选项2</el-menu-item>
-        <el-menu-item index="1-3">选项3</el-menu-item>
+        <el-menu-item :index="`${item2.control_name}/${item2.action_name}/${item2.node_name}`" v-for="(item2, index2) in item.son" :key="index2">{{ item2.node_name }}</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
@@ -26,12 +23,11 @@ export default {
   methods: {
     // 打开菜单回调
     handleOpen(key, keyPath) {
+      console.log(key, keyPath);
       this.$emit('handleOpen', key, keyPath);
     },
     // 初始化参数
-    initParams() {
-      // this.$refs['menu'].open('首页');
-    },
+    initParams() {},
   },
   mounted() {
     // 初始化参数

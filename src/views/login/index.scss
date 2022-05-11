@@ -1,0 +1,39 @@
+.content {
+  background: url('../../material/img/background.png') no-repeat;
+  background-size: 100%;
+  width: 24rem;
+  height: 100vh;
+  position: relative;
+  .content_1 {
+    width: 6.25rem;
+    height: 3.75rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: rgba($color: #201f1f, $alpha: 0.5);
+    border-radius: 0.25rem;
+    .content_1_1 {
+      display: flex;
+      align-items: center;
+      padding-top: 0.4rem;
+      justify-content: center;
+      .content_1_1_2 {
+        width: 3rem;
+      }
+      .content_1_1_1 {
+        color: #fff;
+      }
+    }
+    .content_1_2 {
+      width: 3rem;
+      margin: 0 auto;
+      margin-top: 1rem;
+      .content_1_2_1 {
+        width: 100%;
+      }
+    }
+  }
+}
