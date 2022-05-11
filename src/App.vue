@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Navigation @handleOpen="handleOpen" v-if="isShow" />
+    <Navigation @handleOpen="handleOpen" v-if="isShow" :defaultActive="defaultActive" />
     <div class="app_1">
-      <Breadcrumbs :breadcrumbs="breadcrumbs" v-if="isShow" />
+      <Breadcrumbs :breadcrumbs="breadcrumbs" v-if="isShow" @handleClick="handleClick" />
       <router-view />
     </div>
   </div>
@@ -21,9 +21,15 @@ export default {
       breadcrumbs: [{ name: '首页', type: 'success', key: '/' }],
       // 是否现实组件
       isShow: true,
+      // 当前选中的菜单栏
+      defaultActive: '',
     };
   },
   methods: {
+    handleClick(defaultActive) {
+      if (defaultActive === '//首页') defaultActive = '首页';
+      this.defaultActive = defaultActive;
+    },
     handleOpen(key, keyPath) {
       this.breadcrumbs.forEach(item => {
         item.type = 'info';

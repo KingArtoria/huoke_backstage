@@ -1,7 +1,7 @@
 <template>
   <div class="navigation">
-    <el-menu @select="handleOpen" background-color="#545c64" text-color="#fff" ref="menu" default-active="首页">
-      <el-menu-item index="首页">
+    <el-menu @select="handleOpen" background-color="#545c64" text-color="#fff" ref="menu" :default-active="defaultActive">
+      <el-menu-item index="首页" :route="{ path: '/' }">
         <i class="el-icon-monitor"></i>
         <span slot="title">首页</span>
       </el-menu-item>
@@ -17,6 +17,12 @@
 
 <script>
 export default {
+  props: {
+    defaultActive: {
+      type: String,
+      default: '首页',
+    },
+  },
   data() {
     return {};
   },
@@ -24,6 +30,10 @@ export default {
     // 打开菜单回调
     handleOpen(key, keyPath) {
       this.$emit('handleOpen', key, keyPath);
+      if (key === '首页') return this.$router.push('/');
+      // 获取key最后一个/之前的内容
+      let keyLastBefore = key.split('/').slice(0, -1).join('/');
+      this.$router.push(keyLastBefore);
     },
     // 初始化参数
     initParams() {},
