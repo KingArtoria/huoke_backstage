@@ -9,7 +9,7 @@
         <template slot="title">
           <span>{{ item.node_name }}</span>
         </template>
-        <el-menu-item :index="`${item2.control_name}/${item2.action_name}/${item2.node_name}`" v-for="(item2, index2) in item.son" :key="index2">{{ item2.node_name }}</el-menu-item>
+        <el-menu-item :index="`/${item2.control_name}/${item2.action_name}/${item2.node_name}`" v-for="(item2, index2) in item.son" :key="index2">{{ item2.node_name }}</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
@@ -23,7 +23,6 @@ export default {
   methods: {
     // 打开菜单回调
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
       this.$emit('handleOpen', key, keyPath);
     },
     // 初始化参数

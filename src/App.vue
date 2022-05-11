@@ -18,23 +18,33 @@ export default {
   data() {
     return {
       // 面包屑数组
-      breadcrumbs: [{ key: '首页', type: 'success' }],
+      breadcrumbs: [{ name: '首页', type: 'success', key: '/' }],
       // 是否现实组件
       isShow: true,
     };
   },
   methods: {
     handleOpen(key, keyPath) {
-      // 将数组里的type全部改为info
       this.breadcrumbs.forEach(item => {
         item.type = 'info';
       });
-      const index = this.breadcrumbs.findIndex(item => item.key === key);
-      if (index == -1) {
-        this.breadcrumbs.push({ key, type: 'success' });
+      // 获取key最后一个/之后的内容
+      let keyLast = key.split('/').pop();
+      // 获取key最后一个/之前的内容
+      let keyLastBefore = key.split('/').slice(0, -1).join('/');
+      // keyLast是否在数组中出现过
+      let isExist = this.breadcrumbs.some(item => {
+        return item.name === keyLast;
+      });
+      if (isExist) {
+        // 将出现的某条数据的type改为success
+        this.breadcrumbs.forEach(item => {
+          if (item.name === keyLast) {
+            item.type = 'success';
+          }
+        });
       } else {
-        // 将数组里指定的key的type改为success
-        this.breadcrumbs[index].type = 'success';
+        this.breadcrumbs.push({ name: keyLast, type: 'success', key: keyLastBefore });
       }
     },
     // 初始化参数

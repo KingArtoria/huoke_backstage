@@ -8,7 +8,7 @@ const User = () => import('../views/user_management/user/index.vue')
 const routes = [
   { path: '/', name: 'Index', component: Index },
   { path: '/login', name: 'Login', component: Login },
-  { path: '/user', name: 'User', component: User },
+  { path: '/user/index', name: 'User', component: User },
 ]
 
 const router = new VueRouter({
