@@ -6,6 +6,7 @@
     <el-table
       v-loading="tableLoading"
       :data="tableData"
+      :header-cell-style="headerCellStyle"
       stripe
       border
       element-loading-spinner="el-icon-loading"
