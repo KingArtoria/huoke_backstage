@@ -37,6 +37,13 @@ export const delRole = data => {
   return request({
     method: 'POST',
     url: '/role/roleDel',
+  });
+};
+/* 管理员列表 */
+export const getUserList = data => {
+  return request({
+    method: 'POST',
+    url: '/user/index',
     data: qs.stringify(data),
   });
 };
