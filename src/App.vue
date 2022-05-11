@@ -69,7 +69,7 @@ export default {
   },
   created() {
     Vue.prototype._tree = JSON.parse(localStorage.getItem('tree'));
-    Vue.prototype.headerCellStyle = { background: '#f0faff', color: '#787878' };
+    Vue.prototype._headerCellStyle = { background: '#f0faff', color: '#787878' };
     console.log(this._tree);
   },
   watch: {

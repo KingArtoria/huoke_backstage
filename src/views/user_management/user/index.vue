@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="content app-page">
-      <el-table border :header-cell-style="headerCellStyle">
+      <el-table border :header-cell-style="_headerCellStyle">
         <el-table-column prop="date" label="管理员ID" />
         <el-table-column prop="date" label="管理员名称" />
         <el-table-column prop="date" label="管理员角色" />
