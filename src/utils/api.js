@@ -16,3 +16,11 @@ export const getRoleList = data => {
     data: qs.stringify(data),
   });
 };
+/* 管理员列表 */
+export const getUserList = data => {
+  return request({
+    method: 'POST',
+    url: '/user/index',
+    data: qs.stringify(data),
+  });
+};
