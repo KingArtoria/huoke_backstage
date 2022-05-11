@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 export default {
   props: {
     breadcrumbs: {
@@ -28,8 +29,8 @@ export default {
         item.type = 'info';
       });
       item.type = 'success';
-      console.log(item.key);
       this.$router.push(item.key);
+      this.$emit('handleClick', `${item.key}/${item.name}`);
     },
   },
 };
