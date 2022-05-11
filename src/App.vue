@@ -80,6 +80,7 @@ export default {
 
 <style>
 @import './index.css';
+@import './styles/app.scss';
 </style>
 <style lang="scss" scoped>
 @import './App.scss';

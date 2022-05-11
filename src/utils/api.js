@@ -8,3 +8,11 @@ export const dologin = data => {
     data: qs.stringify(data),
   });
 };
+/* 角色列表 */
+export const getRoleList = data => {
+  return request({
+    method: 'POST',
+    url: '/role/index',
+    data: qs.stringify(data),
+  });
+};
