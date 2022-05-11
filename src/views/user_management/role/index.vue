@@ -7,7 +7,6 @@
       v-loading="tableLoading"
       :data="tableData"
       :header-cell-style="_headerCellStyle"
-      stripe
       border
       element-loading-spinner="el-icon-loading"
       element-loading-text="加载中，请稍候……"
@@ -38,7 +37,7 @@
       <el-pagination
         :page-sizes="pageSizes"
         background
-        layout="total, sizes, prev, pager, next, jumper"
+        layout="prev, pager, next, jumper"
         :total="total"
         :page-size="searchParams.pageSize"
         :current-page="searchParams.pageIndex"
@@ -70,7 +69,7 @@ export default {
       getRoleList(this.searchParams).then((res) => {
         this.hideLoading();
         this.tableData = res.data.rows;
-        this.total = res.data.total;
+        this.total = res.data.list;
       });
       this.showLoading();
     },
