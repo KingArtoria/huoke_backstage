@@ -21,7 +21,6 @@ export default {
       if (item.type === 'success') {
         this.breadcrumbs[this.breadcrumbs.length - 1].type = 'success';
       }
-      console.log(item);
     },
     // 点击面包屑
     handleClick(item) {
