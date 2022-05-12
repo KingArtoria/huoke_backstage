@@ -6,6 +6,7 @@
       <el-table-column label="ID" prop="id" width="60" align="center"></el-table-column>
       <el-table-column label="昵称" prop="nick_name"></el-table-column>
       <el-table-column label="手机" prop="phone" width="110" align="center"></el-table-column>
+      <el-table-column label="是否电联" prop="is_tel" width="80" align="center"></el-table-column>
       <el-table-column label="来源" prop="source"></el-table-column>
       <el-table-column label="注册时间" prop="add_time" align="center" width="140"></el-table-column>
       <el-table-column label="操作" width="240" align="center">
@@ -33,7 +34,7 @@ export default {
   data() {
     return {
       searchParams: {
-        phone: '', // 手机号
+        phone: '', // 手机号2
         source: '', // 来源
         support_level: '', // 用户评级
         vip_end: '', // 会员到期时间
@@ -47,6 +48,7 @@ export default {
           v.head = 'https://asd.bdhuoke.com/' + v.head;
           // 替换v.phone中间4位为*
           v.phone = v.phone.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2');
+          v.is_tel = v.is_tel == 1 ? '是' : '否';
         });
         this.tableData = res.data.list;
         this.total = res.data.rows;
