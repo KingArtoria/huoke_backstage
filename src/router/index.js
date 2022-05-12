@@ -11,6 +11,7 @@ const Node = () => import('../views/user_management/node/index.vue')
 const PubMember = () => import('../views/support/customer/pub-member.vue')
 const GroMember = () => import('../views/support/customer/gro-member.vue')
 const PerMember = () => import('../views/support/customer/per-member.vue')
+const AllMember = () => import('../views/support/all_member/index.vue')
 const routes = [
   { path: '/', name: 'Index', component: Index },
   { path: '/login', name: 'Login', component: Login },

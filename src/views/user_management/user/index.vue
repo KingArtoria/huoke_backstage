@@ -21,7 +21,7 @@
         <el-table-column label="操作" width="180" align="center">
           <template slot-scope="s">
             <el-button type="text" @click="userdel(s.row)" v-if="delPermission">删除管理员</el-button>
-            <el-button type="text" @click="beforeEdit(s.row)" v-if="editPermission">修改管理员</el-button>
+            <el-button type="text" @click="beforeEdit(s.row)" v-if="editPermission">编辑管理员</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -29,7 +29,7 @@
         <el-pagination background layout="prev, pager, next,jumper" :total="userListTotal" @current-change="changePage" />
       </div>
     </div>
-    <el-dialog title="修改管理员" :visible.sync="dialogFormVisible" label-position="left" width="10rem">
+    <el-dialog title="编辑管理员" :visible.sync="dialogFormVisible" label-position="left" width="10rem">
       <el-form :model="userItem" label-width="1.25rem">
         <el-form-item label="真实姓名">
           <el-input v-model="userItem.real_name" />
@@ -172,7 +172,7 @@ export default {
     // 初始化参数
     initParams() {
       this.addPermission = getPermission('用户管理', '管理员管理', '添加管理员');
-      this.editPermission = getPermission('用户管理', '管理员管理', '修改管理员');
+      this.editPermission = getPermission('用户管理', '管理员管理', '编辑管理员');
       this.delPermission = getPermission('用户管理', '管理员管理', '删除管理员');
     },
   },
