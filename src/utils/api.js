@@ -149,6 +149,13 @@ export const supMember = data => {
   return request({
     method: 'POST',
     url: '/support/membersup',
+  });
+};
+/* 添加管理员 */
+export const useradd = data => {
+  return request({
+    method: 'POST',
+    url: '/user/useradd',
     data: qs.stringify(data),
   });
 };
