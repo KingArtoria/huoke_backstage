@@ -1,7 +1,7 @@
 <template>
   <div class="app-page">
-    <header class="app-search">
-      <el-button type="primary" @click="$refs.form.open()">添加</el-button>
+    <header class="app-header">
+      <el-button type="primary" @click="$refs.form.open()">添加角色</el-button>
     </header>
     <el-table
       v-loading="tableLoading"
@@ -15,12 +15,12 @@
       <el-table-column label="角色名称" prop="role_name"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="$refs.form.open(scope.row)"
-            >编辑</el-button
-          >
-          <el-button type="text" @click="del({ id: scope.row.id })"
-            >删除</el-button
-          >
+          <el-button type="text" @click="$refs.form.open(scope.row)">
+            编辑
+          </el-button>
+          <el-button type="text" @click="del({ id: scope.row.id })">
+            删除
+          </el-button>
           <el-button
             type="text"
             @click="
@@ -28,8 +28,9 @@
                 `/role/bind?id=${scope.row.id}&rule=${scope.row.rule}`
               )
             "
-            >分配权限</el-button
           >
+            分配权限
+          </el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -57,7 +57,10 @@ input[type="number"] {
     object-fit: cover;
   }
 }
-
+.app-header {
+  margin-bottom: 16px;
+  text-align: right;
+}
 // 列表搜索栏
 .app-search {
   margin-bottom: 16px;

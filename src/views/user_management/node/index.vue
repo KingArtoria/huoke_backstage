@@ -1,7 +1,7 @@
 <template>
   <div class="app-page">
-    <header class="app-search">
-      <el-button type="primary" @click="$refs.form.open()">添加</el-button>
+    <header class="app-header">
+      <el-button type="primary" @click="$refs.form.open()">添加节点</el-button>
     </header>
     <el-tree
       :data="tableData"
@@ -76,5 +76,9 @@ export default {
   .btn {
     display: none;
   }
+}
+
+.app-header {
+  text-align: left;
 }
 </style>
