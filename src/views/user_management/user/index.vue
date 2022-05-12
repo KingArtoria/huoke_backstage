@@ -2,7 +2,7 @@
   <div>
     <div class="content app-page">
       <div class="content_2">
-        <el-button type="primary">添加管理员</el-button>
+        <el-button type="primary" @click="dialogFormVisible2 = true">添加管理员</el-button>
       </div>
       <el-table border :header-cell-style="_headerCellStyle" :data="userList">
         <el-table-column prop="id" label="管理员ID" width="80" align="center" />
@@ -52,25 +52,28 @@
       </div>
     </el-dialog>
     <el-dialog title="添加管理员" :visible.sync="dialogFormVisible2" label-position="left" width="10rem">
-      <el-form :model="userItem" label-width="1.25rem">
+      <el-form :model="useraddParams" label-width="1.25rem">
         <el-form-item label="真实姓名">
-          <el-input v-model="userItem.real_name" />
+          <el-input v-model="useraddParams.real_name" />
         </el-form-item>
         <el-form-item label="登录账号">
-          <el-input v-model="userItem.user_name" />
+          <el-input v-model="useraddParams.user_name" />
+        </el-form-item>
+        <el-form-item label="登录密码">
+          <el-input v-model="useraddParams.password" type="password" />
         </el-form-item>
         <el-form-item label="账号来源">
-          <el-input v-model="userItem.source" />
+          <el-input v-model="useraddParams.source" />
         </el-form-item>
         <el-form-item label="当前角色">
-          <el-select v-model="userItem.role_id" placeholder="请选择角色">
+          <el-select v-model="useraddParams.role_id" placeholder="请选择角色">
             <el-option v-for="(item, index) in roleList" :key="index" :value="item.id" :label="item.role_name" />
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible2 = false">取 消</el-button>
-        <el-button type="primary" @click="useredit">确 定</el-button>
+        <el-button type="primary" @click="useradd">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -78,7 +81,7 @@
 
 <script>
 import { formatDate } from '../../../utils';
-import { getRoleList, getUserList, userdel, useredit } from '../../../utils/api';
+import { getRoleList, getUserList, useradd, userdel, useredit } from '../../../utils/api';
 export default {
   data() {
     return {
@@ -97,7 +100,7 @@ export default {
       // 添加管理员对话框
       dialogFormVisible2: false,
       // 添加管理员参数
-      
+      useraddParams: {},
     };
   },
   methods: {
@@ -149,6 +152,15 @@ export default {
     getRoleList() {
       getRoleList({ num: 10000 }).then(res => {
         this.roleList = res.data.list;
+      });
+    },
+    // 添加管理员
+    useradd() {
+      useradd(this.useraddParams).then(res => {
+        if (res.code != 1) return this.$message.error(res.msg);
+        this.$message.success('添加成功');
+        this.dialogFormVisible2 = false;
+        this.getUserList();
       });
     },
   },
