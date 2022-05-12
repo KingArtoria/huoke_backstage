@@ -2,7 +2,7 @@
   <div>
     <div class="content app-page">
       <div class="content_2">
-        <el-button type="primary" @click="dialogFormVisible2 = true">添加管理员</el-button>
+        <el-button type="primary" @click="dialogFormVisible2 = true" v-if="addPermission">添加管理员</el-button>
       </div>
       <el-table border :header-cell-style="_headerCellStyle" :data="userList">
         <el-table-column prop="id" label="管理员ID" width="80" align="center" />
@@ -20,8 +20,8 @@
         </el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template slot-scope="s">
-            <el-button type="text" @click="userdel(s.row)">删除管理员</el-button>
-            <el-button type="text" @click="beforeEdit(s.row)">修改管理员</el-button>
+            <el-button type="text" @click="userdel(s.row)" v-if="delPermission">删除管理员</el-button>
+            <el-button type="text" @click="beforeEdit(s.row)" v-if="editPermission">修改管理员</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { formatDate } from '../../../utils';
+import { formatDate, getPermission } from '../../../utils';
 import { getRoleList, getUserList, useradd, userdel, useredit } from '../../../utils/api';
 export default {
   data() {
@@ -101,6 +101,12 @@ export default {
       dialogFormVisible2: false,
       // 添加管理员参数
       useraddParams: {},
+      // 添加管理员权限
+      addPermission: '',
+      // 修改管理员权限
+      editPermission: '',
+      // 删除管理员权限
+      delPermission: '',
     };
   },
   methods: {
@@ -163,8 +169,16 @@ export default {
         this.getUserList();
       });
     },
+    // 初始化参数
+    initParams() {
+      this.addPermission = getPermission('用户管理', '管理员管理', '添加管理员');
+      this.editPermission = getPermission('用户管理', '管理员管理', '修改管理员');
+      this.delPermission = getPermission('用户管理', '管理员管理', '删除管理员');
+    },
   },
   mounted() {
+    // 初始化参数
+    this.initParams();
     // 管理员列表
     this.getUserList();
     // 角色列表

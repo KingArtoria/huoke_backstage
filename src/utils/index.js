@@ -40,3 +40,25 @@ export const getWeek = () => {
       return '星期六';
   }
 }
+// ? 返回权限
+export const getPermission = (key1, key2, key3) => {
+  let tree = []
+  let list = []
+  let list2 = []
+  let list3 = []
+  tree = JSON.parse(localStorage.getItem('tree'))
+  list = tree.filter(item => {
+    return item.node_name === key1
+  })
+  if (list.length > 0) {
+    list2 = list[0].son.filter(item => {
+      return item.node_name === key2
+    })
+    if (list2.length > 0) {
+      list3 = list2[0].son.filter(item => {
+        return item.node_name === key3
+      })
+    }
+  }
+  return list3.length > 0 ? true : false
+}
