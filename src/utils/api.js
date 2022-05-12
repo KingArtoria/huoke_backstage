@@ -104,3 +104,51 @@ export const updateNode = data => {
     data: qs.stringify(data),
   });
 };
+/* 所有用户 */
+export const getAllMember = data => {
+  return request({
+    method: 'POST',
+    url: '/support/all_member',
+    data: qs.stringify(data),
+  });
+};
+/* 公海池 */
+export const getPubMember = data => {
+  return request({
+    method: 'POST',
+    url: '/support/pub_member',
+    data: qs.stringify(data),
+  });
+};
+/* 组长池 */
+export const getGroMember = data => {
+  return request({
+    method: 'POST',
+    url: '/support/gro_member',
+    data: qs.stringify(data),
+  });
+};
+/* 个人池 */
+export const getPerMember = data => {
+  return request({
+    method: 'POST',
+    url: '/support/per_member',
+    data: qs.stringify(data),
+  });
+};
+/* 释放 */
+export const releaseMember = data => {
+  return request({
+    method: 'POST',
+    url: '/support/memberrelease',
+    data: qs.stringify(data),
+  });
+};
+/* 拉取 */
+export const supMember = data => {
+  return request({
+    method: 'POST',
+    url: '/support/membersup',
+    data: qs.stringify(data),
+  });
+};

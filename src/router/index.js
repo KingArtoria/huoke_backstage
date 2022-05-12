@@ -8,6 +8,7 @@ const User = () => import('../views/user_management/user/index.vue')
 const Role = () => import('../views/user_management/role/index.vue')
 const RoleBind = () => import('../views/user_management/role/role-bind.vue')
 const Node = () => import('../views/user_management/node/index.vue')
+const Customer = () => import('../views/support/customer/index.vue')
 const routes = [
   { path: '/', name: 'Index', component: Index },
   { path: '/login', name: 'Login', component: Login },
@@ -15,6 +16,9 @@ const routes = [
   { path: '/role/index', name: 'Role', component: Role },
   { path: '/role/bind', name: 'RoleBind', component: RoleBind },
   { path: '/node/index', name: 'Node', component: Node },
+  { path: '/support/pub_member', name: 'PubMember', component: Customer },
+  { path: '/support/gro_member', name: 'GroMember', component: Customer },
+  { path: '/support/per_member', name: 'PerMember', component: Customer },
 ]
 
 const router = new VueRouter({
