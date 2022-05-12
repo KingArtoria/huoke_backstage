@@ -1,21 +1,20 @@
 <template>
   <!-- 个人池 -->
-  <div class="app-page">
+  <div class="app-wrap">
     <Search :searchParams="searchParams" @search="search" />
-    <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border
+    <div class="app-card">
+      <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border
       element-loading-spinner="el-icon-loading" element-loading-text="加载中，请稍候……">
-      <el-table-column label="ID" prop="id" width="80" align="center"></el-table-column>
+      <el-table-column label="ID" prop="id" width="60" align="center"></el-table-column>
       <el-table-column label="账号" prop="account"></el-table-column>
       <el-table-column label="昵称" prop="nick_name"></el-table-column>
-      <el-table-column label="手机" prop="phone" width="80" align="center"></el-table-column>
-      <el-table-column label="是否电联" prop=""></el-table-column>
-      <el-table-column label="名片——文字" prop="" width="120" align="center"></el-table-column>
-      <el-table-column label="名片——图片" prop="" width="80" align="center"></el-table-column>
+      <el-table-column label="手机" prop="phone" width="120" align="center"></el-table-column>
+      <el-table-column label="IP" prop="last_login_ip" width="120" align="center"></el-table-column>
       <el-table-column label="来源" prop="source" width="150" align="center"></el-table-column>
-      <el-table-column label="关键词" prop=""></el-table-column>
-      <el-table-column label="支持" prop=""></el-table-column>
-      <el-table-column label="注册时间" prop="add_time"></el-table-column>
-      <el-table-column label="备注" prop=""></el-table-column>
+      <el-table-column label="关键词" prop="keyWord"></el-table-column>
+      <el-table-column label="支持" prop="uid"></el-table-column>
+      <el-table-column label="注册时间" prop="add_time" width="140" align="center"></el-table-column>
+      <el-table-column label="备注" prop="remark"></el-table-column>
       <el-table-column label="操作" width="300">
         <template slot-scope="scope">
           <el-button type="text">用户详情</el-button>
@@ -30,6 +29,7 @@
         :page-size="searchParams.num" :current-page="searchParams.page" @size-change="handleSizeChange"
         @current-change="handleCurrentChange" />
     </footer>
+    </div>
   </div>
 </template>
 

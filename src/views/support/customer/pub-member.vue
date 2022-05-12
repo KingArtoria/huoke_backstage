@@ -1,10 +1,11 @@
 <template>
   <!-- 公海池 -->
-  <div class="app-page">
+  <div class="app-wrap">
     <Search :searchParams="searchParams" @search="search" />
-    <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border
+    <div class="app-card">
+      <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border
       element-loading-spinner="el-icon-loading" element-loading-text="加载中，请稍候……">
-      <el-table-column label="ID" prop="id" width="80" align="center"></el-table-column>
+      <el-table-column label="ID" prop="id" width="60" align="center"></el-table-column>
       <el-table-column label="账号" prop="account"></el-table-column>
       <el-table-column label="昵称" prop="nick_name"></el-table-column>
       <el-table-column label="真实姓名" prop="real_name" width="80" align="center"></el-table-column>
@@ -16,10 +17,9 @@
       </el-table-column>
       <el-table-column label="手机" prop="phone" width="120" align="center"></el-table-column>
       <el-table-column label="vip" prop="is_vip" width="80" align="center"></el-table-column>
-      <el-table-column label="注册时间" prop="add_time" width="150" align="center"></el-table-column>
+      <el-table-column label="注册时间" prop="add_time" width="140" align="center"></el-table-column>
       <el-table-column label="用户来源" prop="source"></el-table-column>
-      <el-table-column label="支持" prop=""></el-table-column>
-      <el-table-column label="数据来源" prop=""></el-table-column>
+      <el-table-column label="支持" prop="uid"></el-table-column>
       <el-table-column label="操作" width="300">
         <template slot-scope="scope">
           <el-button type="text" @click="$refs.form.open(scope.row)">编辑</el-button>
@@ -35,6 +35,7 @@
         :page-size="searchParams.num" :current-page="searchParams.page" @size-change="handleSizeChange"
         @current-change="handleCurrentChange" />
     </footer>
+    </div>
   </div>
 </template>
 

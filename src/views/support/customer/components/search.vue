@@ -1,5 +1,5 @@
 <template>
-  <header class="app-header">
+  <header class="app-header header">
       <el-form inline>
         <el-form-item label="来源">
           <el-input v-model="searchParams.source" maxlength="150" clearable></el-input>
@@ -67,3 +67,9 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.header {
+  background: white;
+  padding: 20px;
+}
+</style>
