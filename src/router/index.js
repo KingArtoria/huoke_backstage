@@ -22,6 +22,7 @@ const routes = [
   { path: '/support/pub_member', name: 'PubMember', component: PubMember },
   { path: '/support/gro_member', name: 'GroMember', component: GroMember },
   { path: '/support/per_member', name: 'PerMember', component: PerMember },
+  { path: '/all_member', name: 'AllMember', component: AllMember },
 ]
 
 const router = new VueRouter({
