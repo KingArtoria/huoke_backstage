@@ -159,3 +159,19 @@ export const useradd = data => {
     data: qs.stringify(data),
   });
 };
+/* 查看操作记录 */
+export const getLogList = data => {
+  return request({
+    method: 'POST',
+    url: '/support/runlog',
+    data: qs.stringify(data),
+  });
+};
+/* 设置备注 */
+export const setRemark = data => {
+  return request({
+    method: 'POST',
+    url: '/support/set_remark',
+    data: qs.stringify(data),
+  });
+};

@@ -25,7 +25,7 @@
           <el-button type="text" @click="$refs.form.open(scope.row)">编辑</el-button>
           <el-button type="text" @click="del({ id: scope.row.id })">删除</el-button>
           <el-button type="text">赠送道具卡</el-button>
-          <el-button type="text">查看记录</el-button>
+          <el-button type="text" @click="$router.push(`/support/history?id=${scope.row.id}`)">查看记录</el-button>
           <el-button type="text">拉取</el-button>
         </template>
       </el-table-column>
