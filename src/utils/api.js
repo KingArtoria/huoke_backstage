@@ -72,3 +72,35 @@ export const useredit = data => {
     data: qs.stringify(data),
   });
 };
+/* 节点列表 */
+export const getNodeList = data => {
+  return request({
+    method: 'POST',
+    url: '/node/index',
+    data: qs.stringify(data),
+  });
+};
+/* 添加节点 */
+export const saveNode = data => {
+  return request({
+    method: 'POST',
+    url: '/node/nodeadd',
+    data: qs.stringify(data),
+  });
+};
+/* 删除节点 */
+export const delNode = data => {
+  return request({
+    method: 'POST',
+    url: '/node/nodedel',
+    data: qs.stringify(data),
+  });
+};
+/* 修改节点 */
+export const updateNode = data => {
+  return request({
+    method: 'POST',
+    url: '/node/nodeedit',
+    data: qs.stringify(data),
+  });
+};

@@ -39,8 +39,8 @@
         background
         layout="prev, pager, next, jumper"
         :total="total"
-        :page-size="searchParams.pageSize"
-        :current-page="searchParams.pageIndex"
+        :page-size="searchParams.num"
+        :current-page="searchParams.page"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />

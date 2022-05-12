@@ -7,12 +7,14 @@ const Login = () => import('../views/login/index.vue')
 const User = () => import('../views/user_management/user/index.vue')
 const Role = () => import('../views/user_management/role/index.vue')
 const RoleBind = () => import('../views/user_management/role/role-bind.vue')
+const Node = () => import('../views/user_management/node/index.vue')
 const routes = [
   { path: '/', name: 'Index', component: Index },
   { path: '/login', name: 'Login', component: Login },
   { path: '/user/index', name: 'User', component: User },
   { path: '/role/index', name: 'Role', component: Role },
   { path: '/role/bind', name: 'RoleBind', component: RoleBind },
+  { path: '/node/index', name: 'Node', component: Node },
 ]
 
 const router = new VueRouter({
