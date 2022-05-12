@@ -12,7 +12,7 @@ const list = {
       pageSizes: [10, 20, 50, 100],
       searchParams: {
         page: 1,
-        pageSize: 10,
+        num: 10,
       },
       // 搜索防抖，用户停止输入300毫秒后发起查询请求
       debounceInput: _.debounce(() => {
@@ -32,7 +32,7 @@ const list = {
      * @param val
      */
     handleSizeChange(val) {
-      this.searchParams.pageSize = val
+      this.searchParams.num = val
       this.fetchData()
     },
     /**
@@ -40,12 +40,12 @@ const list = {
      * @param val
      */
     handleCurrentChange(val) {
-      this.searchParams.pageIndex = val
+      this.searchParams.page = val
       this.fetchData()
     },
     // 页数回到第一页
     search() {
-      this.searchParams.pageIndex = 1
+      this.searchParams.page = 1
       this.fetchData()
     },
     /**

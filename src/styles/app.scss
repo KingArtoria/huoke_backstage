@@ -1,4 +1,6 @@
 /* 此样式文件用于定义全局通用样式，建议类名前加【app-】前缀用以区分全局样式和组件内部样式 */
+@import './override.scss'; // 覆盖element-ui默认样式
+
 .app-page {
   padding: 20px;
   background-color: white;
@@ -57,12 +59,8 @@ input[type="number"] {
     object-fit: cover;
   }
 }
-.app-header {
-  margin-bottom: 16px;
-  text-align: right;
-}
 // 列表搜索栏
-.app-search {
+.app-header {
   margin-bottom: 16px;
   background-color: white;
   display: flex;
