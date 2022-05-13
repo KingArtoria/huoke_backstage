@@ -297,8 +297,8 @@ function move() {
 	let l, t
 	waifu.addEventListener('mousedown', (e) => {
 		// 获取鼠标点击位置相对于live2d左上角的相对距离
-		const { offsetTop, offsetLeft, offsetHeight } = waifu
-		l = e.clientX - offsetLeft
+		const { offsetTop, offsetLeft, offsetHeight, offsetWidth } = waifu
+		l = offsetWidth - (e.clientX - offsetLeft)
 		t = offsetHeight - (e.clientY - offsetTop)
 		isRedayMove = true
 	})
@@ -310,15 +310,14 @@ function move() {
 		const { clientX, clientY } = e
 		// 页面宽高
 		const { offsetWidth: docWidth, offsetHeight: docHeight } = document.documentElement
-		const lVal = clientX - l
+		const rVal = docWidth - clientX - l
 		const bVal = docHeight - clientY - t
 		// 判断边界
-		if (lVal < 0 || lVal + offsetWidth > docWidth || bVal < 0 || bVal + offsetHeight > docHeight) return
-		waifu.style.left = lVal + 'px'
+		if (rVal < 0 || rVal + offsetWidth > docWidth || bVal < 0 || bVal + offsetHeight > docHeight) return
+		waifu.style.right = rVal + 'px'
 		waifu.style.bottom = bVal + 'px'
 	})
 	document.addEventListener('mouseup', (e) => {
-		console.log(3);
 		isRedayMove = false
 	})
 }
