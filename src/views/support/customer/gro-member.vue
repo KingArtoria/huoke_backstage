@@ -26,7 +26,7 @@
             <el-button type="text" @click="del({ id: scope.row.id })">删除</el-button>
             <el-button type="text">赠送道具卡</el-button>
             <el-button type="text">查看记录</el-button>
-            <el-button type="text">拉取</el-button>
+            <el-button type="text" @click="pull(scope.row.id)">拉取</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -41,7 +41,7 @@
 
 <script>
 import Search from "./components/search.vue";
-import { getGroMember } from "@/utils/api";
+import { getGroMember, supMember } from "@/utils/api";
 import listMixin from "@/mixins/listMixin";
 export default {
   mixins: [listMixin],
@@ -65,6 +65,20 @@ export default {
         this.tableData = res.data.list;
         this.total = res.data.rows;
       });
+    },
+    pull(id) {
+      this.$confirm("确定拉取吗", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          supMember({ id }).then(() => {
+            this.$message.success("操作成功");
+            this.fetchData();
+          });
+        })
+        .catch(() => {});
     },
   },
   mounted() {
