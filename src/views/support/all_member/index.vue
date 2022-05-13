@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="content app-page">
+      <Head :searchParams="headParams" @searchList="getAllMember" />
       <el-table border :header-cell-style="_headerCellStyle" :data="userList">
         <el-table-column prop="id" label="用户ID" width="80" align="center" />
         <el-table-column prop="phone" label="联系方式" width="120" align="center" />
@@ -13,11 +14,16 @@
         <el-table-column prop="vip_endtime" label="会员到期时间" width="110" align="center" />
         <el-table-column prop="remark" label="备注" />
       </el-table>
+      <div class="content_1">
+        <el-pagination background layout="prev, pager, next,jumper" :total="total" @current-change="changePage" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Head from '../../../components/Head/index.vue';
+import { DATE_CONST, USER_RATE_CONST } from '../../../utils/const';
 import { formatDate } from '../../../utils';
 import { getAllMember } from '../../../utils/api';
 export default {
@@ -29,27 +35,49 @@ export default {
       userList: [],
       // 所有用户总数
       total: 0,
+      // head参数
+      headParams: [],
     };
   },
   methods: {
     // 查询所有用户
-    getAllMember() {
+    getAllMember(params) {
+      // 对象合并
+      Object.assign(this.params, params);
       getAllMember(this.params).then(res => {
         res.data.list.forEach(item => {
           item.is_tel = item.is_tel == 1 ? '是' : '否';
           // 把item.phone中间4位替换成*
           item.phone = item.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
-          item.vip_endtime = item.vip_endtime == 0 ? '未开通' : formatDate(item.vip_endtime, 'YYYY-MM-DD');
+          item.vip_endtime = item.vip_endtime == 0 ? '未开通' : formatDate(item.vip_endtime * 1000, 'yyyy-MM-dd');
         });
         this.userList = res.data.list;
         this.total = res.data.rows;
       });
     },
+    // 更改页码
+    changePage(page) {
+      this.params.page = page;
+      this.getAllMember();
+    },
+    // 初始化参数
+    initParams() {
+      this.headParams = [
+        { key: 'phone', value: '', label: '手机号码', placeholder: '请输入手机号', type: 'input' },
+        { key: 'source', value: '', label: '来源', placeholder: '请输入来源', type: 'input' },
+        { key: 'uid', value: '', label: '支持', placeholder: '请输入支持', type: 'input' },
+        { key: 'support_level', value: '', label: '用户等级', placeholder: '请选择到期时间', type: 'select', data: USER_RATE_CONST },
+        { key: 'vip_end', value: '', label: '到期时间', placeholder: '请选择用户评级', type: 'select', data: DATE_CONST },
+      ];
+    },
   },
   mounted() {
+    // 初始化参数
+    this.initParams();
     // 查询所有用户
     this.getAllMember();
   },
+  components: { Head },
 };
 </script>
 
