@@ -175,3 +175,35 @@ export const setRemark = data => {
     data: qs.stringify(data),
   });
 };
+/* 获取商品列表 */
+export const getGoodList = data => {
+  return request({
+    method: 'POST',
+    url: '/Order/goods_list',
+    data: qs.stringify(data),
+  });
+};
+/* 已支付订单 */
+export const getPayOrder = data => {
+  return request({
+    method: 'POST',
+    url: '/Order/pay_order',
+    data: qs.stringify(data),
+  });
+};
+/* 未支付订单 */
+export const getUnPayOrder = data => {
+  return request({
+    method: 'POST',
+    url: '/Order/unpaid_order',
+    data: qs.stringify(data),
+  });
+};
+/* 创建订单 */
+export const saveOrder = data => {
+  return request({
+    method: 'POST',
+    url: '/Order/add_order',
+    data: qs.stringify(data),
+  });
+};

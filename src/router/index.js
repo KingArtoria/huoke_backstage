@@ -13,6 +13,9 @@ const GroMember = () => import('../views/support/customer/gro-member.vue')
 const PerMember = () => import('../views/support/customer/per-member.vue')
 const AllMember = () => import('../views/support/all_member/index.vue')
 const History = () => import('../views/support/customer/history.vue')
+const PayOrder = () => import('../views/support/order/pay-order.vue')
+const UnpayOrder = () => import('../views/support/order/unpay-order.vue')
+const GoodList = () => import('../views/support/order/good-list.vue')
 const routes = [
   { path: '/', name: 'Index', component: Index },
   { path: '/login', name: 'Login', component: Login },
@@ -25,6 +28,9 @@ const routes = [
   { path: '/support/per_member', name: 'PerMember', component: PerMember },
   { path: '/support/all_member', name: 'AllMember', component: AllMember },
   { path: '/support/history', name: 'History', component: History },
+  { path: '/order/pay', name: 'PayOrder', component: PayOrder },
+  { path: '/order/unpay', name: 'UnpayOrder', component: UnpayOrder },
+  { path: '/order/good', name: 'GoodList', component: GoodList },
 ]
 
 const router = new VueRouter({
