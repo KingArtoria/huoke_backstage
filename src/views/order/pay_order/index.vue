@@ -2,7 +2,7 @@
   <div>
     <div class="content app-page">
       <header class="app-header header">
-        <el-button type="primary">创建订单</el-button>
+        <el-button type="primary" @click="dialogFormVisible = true">创建订单</el-button>
       </header>
       <el-table border :header-cell-style="_headerCellStyle" :data="payOrderList">
         <el-table-column prop="create_time" label="购买时间" width="140" align="center" />
@@ -15,7 +15,7 @@
       </div>
     </div>
     <el-dialog title="创建订单" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
+      <el-form :model="form" label-width="1rem" label-position="left" width="10rem">
         <el-form-item label="账号">
           <el-input v-model="form.phone" />
         </el-form-item>
@@ -23,13 +23,13 @@
           <el-input v-model="form.price" />
         </el-form-item>
         <el-form-item label="赠送时长">
-          <el-input v-model="form.give_time" />
+          <el-input v-model="form.give_time" type="number" placeholder="天(只填数字!只填数字!只填数字!)" />
         </el-form-item>
-        <el-form-item label="赠送时长">
+        <el-form-item label="支付方式">
           <el-radio v-model="form.pay_type" label="wxpay">微信</el-radio>
           <el-radio v-model="form.pay_type" label="alipay">支付宝</el-radio>
         </el-form-item>
-        <el-form-item label="赠送时长">
+        <el-form-item label="会员类型">
           <el-select v-model="form.goods_id" placeholder="请选择">
             <el-option v-for="(item, index) in goodsList" :key="index" :label="item.title" :value="item.id" />
           </el-select>
@@ -37,7 +37,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="createOrder">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -45,7 +45,7 @@
 
 <script>
 import { formatDate } from '../../../utils';
-import { getPayOrder, getGoodList } from '../../../utils/api';
+import { getPayOrder, getGoodList, saveOrder } from '../../../utils/api';
 export default {
   data() {
     return {
@@ -56,7 +56,7 @@ export default {
       // 列表参数
       params: { page: 1, num: 10 },
       // 创建订单参数
-      form: {},
+      form: { give: 0, give_time: '' },
       // 创建订单弹窗
       dialogFormVisible: false,
       // 商品列表
@@ -82,9 +82,20 @@ export default {
     // 获取商品列表
     getGoodsList() {
       getGoodList().then(res => {
-        this.goodsList = res.data.list;
+        this.goodsList = res.data;
       });
     },
+    // 创建订单
+    createOrder() {
+      this.form.give = this.form.give_time == '' ? 0 : 1;
+      saveOrder(this.form).then(res => {
+        console.log(res);
+      });
+    },
+    // 微信支付
+    wxPay() {
+
+    }
   },
   mounted() {
     // 已支付订单
