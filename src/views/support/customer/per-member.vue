@@ -14,14 +14,12 @@
         <el-table-column label="注册时间" prop="add_time" width="140" align="center"></el-table-column>
         <el-table-column label="用户评级" prop="support_level"></el-table-column>
         <el-table-column label="备注" prop="remark"></el-table-column>
-        <el-table-column label="操作" width="240">
+        <!-- <el-table-column label="操作" width="240">
           <template slot-scope="scope">
-            <el-button type="text">用户详情</el-button>
             <el-button type="text" @click="$refs.form.open(scope.row)">设置备注</el-button>
-            <el-button type="text">赠送道具卡</el-button>
             <el-button type="text" @click="release(scope.row.id)">释放</el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
       <footer class="app-pagination-wrap">
         <el-pagination :page-sizes="pageSizes" background layout="prev, pager, next, jumper" :total="total"

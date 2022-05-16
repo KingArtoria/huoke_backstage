@@ -12,3 +12,10 @@ export const DATE_CONST = [
   { key: "三天", value: 3 * 24 * 60 * 60 },
   { key: "七天", value: 7 * 24 * 60 * 60 },
 ]
+// 业务报表统计类型常量
+export const REPORT_DATE_TYPE = [
+  { key: '年', value: 'year' },
+  { key: "月", value: 'month' },
+  { key: "周", value: 'week' },
+  { key: "今天", value: 'today' },
+]

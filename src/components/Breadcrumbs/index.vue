@@ -1,6 +1,7 @@
 <template>
   <div class="breadcrumbs">
     <el-tag size="small" v-for="(item, index) in breadcrumbs" :key="index" :closable="item.key != '/'" :type="item.type" hit disable-transitions class="breadcrumbs_1" @click="handleClick(item)" @close="handleClose(item)" effect="dark">{{ item.name }} </el-tag>
+    <el-button class="exit" @click="exit">退出</el-button>
   </div>
 </template>
 
@@ -32,6 +33,18 @@ export default {
       this.$router.push(item.key);
       this.$emit('handleClick', `${item.key}/${item.name}`);
     },
+    // 退出登录
+    exit() {
+      this.$confirm('确定退出吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        localStorage.removeItem('token')
+        window.location.reload()
+      }).catch(() => {
+      })
+    }
   },
 };
 </script>

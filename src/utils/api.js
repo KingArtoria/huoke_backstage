@@ -207,3 +207,19 @@ export const saveOrder = data => {
     data: qs.stringify(data),
   });
 };
+/* 业绩总览 */
+export const getAllPerformance = data => {
+  return request({
+    method: 'POST',
+    url: '/support/report',
+    data: qs.stringify(data),
+  });
+};
+/* 个人业绩 */
+export const getOwnerPerformance = data => {
+  return request({
+    method: 'POST',
+    url: '/support/user_order',
+    data: qs.stringify(data),
+  });
+};
