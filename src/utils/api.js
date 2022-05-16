@@ -231,3 +231,11 @@ export const getMonthReport = data => {
     data: qs.stringify(data),
   });
 };
+/* 微信支付 */
+export const wxPay = data => {
+  return request({
+    method: 'POST',
+    url: '/wxpay/pay',
+    data: qs.stringify(data),
+  });
+};

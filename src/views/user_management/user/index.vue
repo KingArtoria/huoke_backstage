@@ -29,8 +29,8 @@
         <el-pagination background layout="prev, pager, next,jumper" :total="userListTotal" @current-change="changePage" />
       </div>
     </div>
-    <el-dialog title="编辑管理员" :visible.sync="dialogFormVisible" label-position="left" width="10rem">
-      <el-form :model="userItem" label-width="1.25rem">
+    <el-dialog title="编辑管理员" :visible.sync="dialogFormVisible">
+      <el-form :model="userItem" label-width="1.25rem" label-position="left" width="10rem">
         <el-form-item label="真实姓名">
           <el-input v-model="userItem.real_name" />
         </el-form-item>
