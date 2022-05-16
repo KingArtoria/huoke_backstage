@@ -219,7 +219,15 @@ export const getAllPerformance = data => {
 export const getOwnerPerformance = data => {
   return request({
     method: 'POST',
-    url: '/support/user_order',
+    url: '/Order/user_order',
+    data: qs.stringify(data),
+  });
+};
+/* 月度报表 */
+export const getMonthReport = data => {
+  return request({
+    method: 'POST',
+    url: '/support/report_info',
     data: qs.stringify(data),
   });
 };

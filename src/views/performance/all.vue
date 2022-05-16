@@ -8,11 +8,6 @@
         <el-table-column label="姓名" prop="aid" align="center"></el-table-column>
         <el-table-column label="单数" prop="num" align="center"></el-table-column>
         <el-table-column label="业绩总额" prop="price" align="right"></el-table-column>
-        <!-- <el-table-column label="数据类型" prop="version" align="center">
-          <template slot-scope="scope">
-            <el-tag :type="scope.row.version === 'new' ? 'primary' : 'info'">{{ scope.row.version === 'new' ? '新数据' : '旧数据' }}</el-tag>
-          </template>
-        </el-table-column> -->
       </el-table>
     </div>
   </div>

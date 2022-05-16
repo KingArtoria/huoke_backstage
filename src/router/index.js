@@ -17,6 +17,7 @@ const PayOrder = () => import('../views/order/pay_order/index.vue')
 const UnPayOrder = () => import('../views/order/unpaid_order/index.vue')
 const AllPerformance = () => import('../views/performance/all.vue')
 const OwnerPerformance = () => import('../views/performance/owner.vue')
+const MonthReport = () => import('../views/performance/month-report.vue')
 const routes = [
   { path: '/', name: 'Index', component: Index },
   { path: '/login', name: 'Login', component: Login },
@@ -32,7 +33,8 @@ const routes = [
   { path: '/order/pay_order', name: 'PayOrder', component: PayOrder },
   { path: '/order/unpaid_order', name: 'UnPayOrder', component: UnPayOrder },
   { path: '/support/report', name: 'AllPerformance', component: AllPerformance },
-  { path: '/support/user_order', name: 'OwnerPerformance', component: OwnerPerformance },
+  { path: '/order/user_order', name: 'OwnerPerformance', component: OwnerPerformance },
+  { path: '/support/report_info', name: 'MonthReport', component: MonthReport },
 ]
 
 const router = new VueRouter({

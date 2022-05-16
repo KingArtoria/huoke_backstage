@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navigation @handleOpen="handleOpen" v-if="isShow" :defaultActive="defaultActive" />
-    <div class="app_1">
+    <div class="app_1" :class="{is_login: !isShow}">
       <Breadcrumbs :breadcrumbs="breadcrumbs" v-if="isShow" @handleClick="handleClick" />
       <router-view />
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="app-page">
-    <header v-if="addPermission" class="app-header">
+    <header v-if="addPermission" class="app-header app-flex-end">
       <el-button type="primary" @click="$refs.form.open()">添加角色</el-button>
     </header>
     <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border element-loading-spinner="el-icon-loading" element-loading-text="加载中，请稍候……">

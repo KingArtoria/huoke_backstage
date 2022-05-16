@@ -1,8 +1,9 @@
 <template>
   <!-- 组长池 -->
   <div class="app-wrap">
-    <Search :searchParams="searchParams" @search="search" />
+    <!-- <Search :searchParams="searchParams" @search="search" /> -->
     <div class="app-card">
+      <Head :searchParams="templateParams" @searchList="doSearch" />
       <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border
         element-loading-spinner="el-icon-loading" element-loading-text="加载中，请稍候……">
         <el-table-column label="ID" prop="id" width="60" align="center"></el-table-column>
@@ -18,7 +19,7 @@
         <el-table-column label="手机" prop="phone" width="120" align="center"></el-table-column>
         <el-table-column label="vip" prop="is_vip" width="80" align="center"></el-table-column>
         <el-table-column label="注册时间" prop="add_time" width="150" align="center"></el-table-column>
-        <el-table-column label="用户来源" prop="source"></el-table-column>
+        <el-table-column label="来源" prop="source"></el-table-column>
         <el-table-column label="支持" prop="uid"></el-table-column>
         <!-- <el-table-column label="操作" width="300">
           <template slot-scope="scope">
@@ -37,20 +38,23 @@
 </template>
 
 <script>
-import Search from "./components/search.vue";
+// import Search from "./components/search.vue";
 import { getGroMember, supMember } from "@/utils/api";
 import listMixin from "@/mixins/listMixin";
+import Head from "@/components/Head/index.vue";
+import { DATE_CONST, USER_RATE_CONST } from '@/utils/const';
 export default {
   mixins: [listMixin],
-  components: { Search },
+  components: { Head },
   data() {
     return {
-      searchParams: {
-        phone: "", // 手机号
-        source: "", // 来源
-        support_level: "", // 用户评级
-        vip_end: "", // 会员到期时间
-      },
+      templateParams: [
+        { key: 'phone', value: '', label: '手机号码', placeholder: '请输入手机号', type: 'input' },
+        { key: 'source', value: '', label: '来源', placeholder: '请输入来源', type: 'input' },
+        { key: 'uid', value: '', label: '支持', placeholder: '请输入支持', type: 'input' },
+        { key: 'support_level', value: '', label: '用户等级', placeholder: '请选择到期时间', type: 'select', data: USER_RATE_CONST },
+        { key: 'vip_end', value: '', label: '到期时间', placeholder: '请选择用户评级', type: 'select', data: DATE_CONST },
+      ],
     };
   },
   methods: {
@@ -58,6 +62,8 @@ export default {
       getGroMember(this.searchParams).then((res) => {
         res.data.list.forEach((v) => {
           v.head = "https://asd.bdhuoke.com/" + v.head;
+          v.phone = v.phone.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2");
+          v.account = v.account.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2");
         });
         this.tableData = res.data.list;
         this.total = res.data.rows;
@@ -76,6 +82,10 @@ export default {
           });
         })
         .catch(() => {});
+    },
+    doSearch(params) {
+      this.searchParams = Object.assign(this.searchParams, params);
+      this.search();
     },
   },
   mounted() {
