@@ -38,7 +38,6 @@
 </template>
 
 <script>
-// import Search from "./components/search.vue";
 import { getGroMember, supMember } from "@/utils/api";
 import listMixin from "@/mixins/listMixin";
 import Head from "@/components/Head/index.vue";
@@ -52,8 +51,8 @@ export default {
         { key: 'phone', value: '', label: '手机号码', placeholder: '请输入手机号', type: 'input' },
         { key: 'source', value: '', label: '来源', placeholder: '请输入来源', type: 'input' },
         { key: 'uid', value: '', label: '支持', placeholder: '请输入支持', type: 'input' },
-        { key: 'support_level', value: '', label: '用户等级', placeholder: '请选择到期时间', type: 'select', data: USER_RATE_CONST },
-        { key: 'vip_end', value: '', label: '到期时间', placeholder: '请选择用户评级', type: 'select', data: DATE_CONST },
+        { key: 'support_level', value: '', label: '用户等级', placeholder: '请选择用户等级', type: 'select', data: USER_RATE_CONST },
+        { key: 'vip_end', value: '', label: '到期时间', placeholder: '请选择到期时间', type: 'select', data: DATE_CONST },
       ],
     };
   },

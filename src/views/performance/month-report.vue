@@ -99,6 +99,7 @@ export default {
           {
             name: "单数",
             type: "bar",
+            barWidth: 20,
             showSymbol: true,
             data: [],
             symbolSize: 3,
@@ -114,7 +115,7 @@ export default {
                     color: "#4bdfff",
                   },
                 ]),
-                barBorderRadius: 0,
+                barBorderRadius: [4, 4, 0, 0],
                 label: {
                   show: true,
                   position: "top",

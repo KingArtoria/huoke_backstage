@@ -1,8 +1,9 @@
 <template>
   <!-- 个人池 -->
   <div class="app-wrap">
-    <Search :searchParams="searchParams" @search="search" />
+    <!-- <Search :searchParams="searchParams" @search="search" /> -->
     <div class="app-card">
+      <Head :searchParams="templateParams" @searchList="doSearch" />
       <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border
         element-loading-spinner="el-icon-loading" element-loading-text="加载中，请稍候……">
         <el-table-column label="ID" prop="id" width="60" align="center"></el-table-column>
@@ -12,7 +13,7 @@
         <el-table-column label="来源" prop="source" width="150" align="center"></el-table-column>
         <el-table-column label="关键词" prop="keyWord"></el-table-column>
         <el-table-column label="注册时间" prop="add_time" width="140" align="center"></el-table-column>
-        <el-table-column label="用户评级" prop="support_level"></el-table-column>
+        <el-table-column label="用户等级" prop="support_level"></el-table-column>
         <el-table-column label="备注" prop="remark"></el-table-column>
         <!-- <el-table-column label="操作" width="240">
           <template slot-scope="scope">
@@ -32,21 +33,23 @@
 </template>
 
 <script>
-import Search from "./components/search.vue";
 import { getPerMember, releaseMember } from "@/utils/api";
 import listMixin from "@/mixins/listMixin";
 import RemarkForm from "./components/remark-form.vue";
+import Head from "@/components/Head/index.vue";
+import { DATE_CONST, USER_RATE_CONST } from '@/utils/const';
 export default {
   mixins: [listMixin],
-  components: { Search, RemarkForm },
+  components: { RemarkForm, Head },
   data() {
     return {
-      searchParams: {
-        phone: "", // 手机号2
-        source: "", // 来源
-        support_level: "", // 用户评级
-        vip_end: "", // 会员到期时间
-      },
+      templateParams: [
+        { key: 'phone', value: '', label: '手机号码', placeholder: '请输入手机号', type: 'input' },
+        { key: 'source', value: '', label: '来源', placeholder: '请输入来源', type: 'input' },
+        { key: 'uid', value: '', label: '支持', placeholder: '请输入支持', type: 'input' },
+        { key: 'support_level', value: '', label: '用户等级', placeholder: '请选择用户等级', type: 'select', data: USER_RATE_CONST },
+        { key: 'vip_end', value: '', label: '到期时间', placeholder: '请选择到期时间', type: 'select', data: DATE_CONST },
+      ],
     };
   },
   methods: {
@@ -75,6 +78,10 @@ export default {
           });
         })
         .catch(() => {});
+    },
+    doSearch(params) {
+      this.searchParams = Object.assign(this.searchParams, params);
+      this.search();
     },
   },
   mounted() {

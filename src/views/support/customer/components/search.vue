@@ -7,7 +7,7 @@
         <el-form-item label="手机号">
           <el-input v-model="searchParams.phone" maxlength="150" clearable></el-input>
         </el-form-item>
-        <el-form-item label="用户评级">
+        <el-form-item label="用户等级">
           <el-select v-model="searchParams.support_level" clearable>
             <el-option
               v-for="item in supportLevelOptions"

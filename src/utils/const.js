@@ -1,4 +1,4 @@
-// TODO 用户评级常量
+// TODO 用户等级常量
 export const USER_RATE_CONST = [
   { key: '成交已到期', value: 'S2' },
   { key: '成交未到期', value: 'S1' },
@@ -14,8 +14,8 @@ export const DATE_CONST = [
 ]
 // 业务报表统计类型常量
 export const REPORT_DATE_TYPE = [
-  { key: '年', value: 'year' },
-  { key: "月", value: 'month' },
-  { key: "周", value: 'week' },
-  { key: "今天", value: 'today' },
+  { key: '本年', value: 'year' },
+  { key: "本月", value: 'month' },
+  { key: "本周", value: 'week' },
+  { key: "本日", value: 'today' },
 ]

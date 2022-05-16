@@ -5,7 +5,7 @@
       <el-form-item label="备注">
         <el-input v-model="formData.remark" placeholder="请输入备注" maxlength="150" />
       </el-form-item>
-      <el-form-item label="用户评级">
+      <el-form-item label="用户等级">
         <el-select v-model="formData.support_level" clearable style="width: 100%;">
           <el-option v-for="item in supportLevelOptions" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
@@ -33,6 +33,7 @@
 <script>
 import formMixin from "@/mixins/formMixin";
 import { setRemark } from "@/utils/api";
+import { USER_RATE_CONST } from '@/utils/const'
 export default {
   role_name: "RemarkForm",
   mixins: [formMixin],
@@ -42,17 +43,11 @@ export default {
         remark: "", // 备注
         card_str: "", // 名片-文字
         card_pic: "", // 名片-图片
-        support_level: "", // 用户评级
+        support_level: "", // 用户等级
         member_id: "", // 用户id
       },
       baseUrl: "http://nad.bdhuoke.com/admin/support/uploadImg",
-      supportLevelOptions: [
-        { label: "B", value: "B" },
-        { label: "C", value: "C" },
-        { label: "A", value: "A" },
-        { label: "S1", value: "S1" },
-        { label: "S2", value: "S2" },
-      ],
+      supportLevelOptions: USER_RATE_CONST,
     };
   },
   computed: {
@@ -70,7 +65,7 @@ export default {
         remark: row.remark, // 备注
         card_str: row.card_str, // 名片-文字
         card_pic: row.card_pic, // 名片-图片
-        support_level: row.support_level, // 用户评级
+        support_level: row.support_level, // 用户等级
         member_id: row.id, // 用户id
       };
     },

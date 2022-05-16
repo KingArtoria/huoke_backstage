@@ -62,6 +62,7 @@ export default {
         tooltip: {
           trigger: "axis",
         },
+        colors: ['#2080F7', '#fa92a5'],
         legend: {
           data: ["本日注册", "本日会员"],
         },
@@ -83,47 +84,24 @@ export default {
           },
         },
         series: [
-          // {
-          //   name: "本日注册",
-          //   type: "line",
-          //   stack: "Total",
-          //   data: [120, 132, 101, 134, 90, 230, 210],
-          // },
-          // {
-          //   name: "本日会员",
-          //   type: "line",
-          //   stack: "Total",
-          //   data: [220, 182, 191, 234, 290, 330, 310],
-          // },
           {
             name: "本日注册",
             type: "line",
-            smooth: true,
+            smooth: false,
             showSymbol: false,
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                {
-                  offset: 0,
-                  color: "rgba(32,128,247,.4)",
-                },
-                {
-                  offset: 1,
-                  color: "rgba(32,128,247,0)",
-                },
-              ]),
-            },
-            data: [
-              30, 50, 53, 42, 66, 71, 20, 80, 20, 30, 50, 53, 42, 66, 71, 20,
-              80, 20,
-            ],
-            // symbol: "circle",
+            data: [],
+            symbol: "circle",
             symbolSize: 8,
             itemStyle: {
               normal: {
                 color: "#2080F7",
                 borderColor: "#2080F7",
+                borderWidth: 1,
                 lineStyle: {
                   color: "#2080F7",
+                },
+                label: {
+                  show: false,
                 },
               },
             },
@@ -131,32 +109,21 @@ export default {
           {
             name: "本日会员",
             type: "line",
-            smooth: true,
+            smooth: false,
             showSymbol: false,
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                {
-                  offset: 0,
-                  color: "#ea899b",
-                },
-                {
-                  offset: 1,
-                  color: "#ffffff",
-                },
-              ]),
-            },
-            data: [
-              35, 40, 57, 49, 61, 4, 2, 30, 12, 35, 40, 57, 49, 61, 4, 2, 30,
-              12,
-            ],
-            // symbol: "circle",
+            data: [],
+            symbol: "circle",
             symbolSize: 8,
             itemStyle: {
               normal: {
                 color: "#fa92a5",
                 borderColor: "#fa92a5",
+                borderWidth: 1,
                 lineStyle: {
                   color: "#fa92a5",
+                },
+                label: {
+                  show: false,
                 },
               },
             },
@@ -174,6 +141,8 @@ export default {
       for (let i = 1; i <= days; i++) {
         this.option.xAxis.data.push(month + "-" + i);
       }
+      this.option.series[0].data = this.test(days);
+      this.option.series[1].data = this.test(days);
       this.chartDom = document.getElementById("main");
       this.myChart = echarts.init(this.chartDom);
       this.option && this.myChart.setOption(this.option);
@@ -182,6 +151,16 @@ export default {
       }, 300);
       // 监听窗口改动调整图表尺寸
       window.addEventListener("resize", this.chartResize);
+    },
+    test(len) {
+      const arr = [];
+      for (let i = 0; i < len; i++) {
+        arr.push(this.getRandom(5, 50));
+      }
+      return arr;
+    },
+    getRandom(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     },
   },
   mounted() {
