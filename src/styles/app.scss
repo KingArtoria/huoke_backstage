@@ -200,3 +200,9 @@ input[type="number"] {
     overflow-x: hidden;
   }
 }
+
+/* 右对齐 */
+.app-flex-end {
+  display: flex;
+  justify-content: flex-end;
+}

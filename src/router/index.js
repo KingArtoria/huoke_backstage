@@ -14,6 +14,7 @@ const PerMember = () => import('../views/support/customer/per-member.vue')
 const AllMember = () => import('../views/support/all_member/index.vue')
 const History = () => import('../views/support/customer/history.vue')
 const PayOrder = () => import('../views/order/pay_order/index.vue')
+const UnPayOrder = () => import('../views/order/unpaid_order/index.vue')
 const AllPerformance = () => import('../views/performance/all.vue')
 const OwnerPerformance = () => import('../views/performance/owner.vue')
 const routes = [
@@ -29,6 +30,7 @@ const routes = [
   { path: '/support/all_member', name: 'AllMember', component: AllMember },
   { path: '/support/history', name: 'History', component: History },
   { path: '/order/pay_order', name: 'PayOrder', component: PayOrder },
+  { path: '/order/unpaid_order', name: 'UnPayOrder', component: UnPayOrder },
   { path: '/support/report', name: 'AllPerformance', component: AllPerformance },
   { path: '/support/user_order', name: 'OwnerPerformance', component: OwnerPerformance },
 ]

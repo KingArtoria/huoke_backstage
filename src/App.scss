@@ -1,6 +1,8 @@
 #app {
   display: flex;
   .app_1 {
-    width: calc(100% - 2.625rem);
+    width: calc(100% - 210px);
+    padding-top: 40px;
+    margin-left: 210px;
   }
 }
