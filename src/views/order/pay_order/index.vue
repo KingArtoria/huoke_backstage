@@ -16,8 +16,23 @@
     </div>
     <el-dialog title="创建订单" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="活动名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+        <el-form-item label="账号">
+          <el-input v-model="form.phone" />
+        </el-form-item>
+        <el-form-item label="价格">
+          <el-input v-model="form.price" />
+        </el-form-item>
+        <el-form-item label="赠送时长">
+          <el-input v-model="form.give_time" />
+        </el-form-item>
+        <el-form-item label="赠送时长">
+          <el-radio v-model="form.pay_type" label="wxpay">微信</el-radio>
+          <el-radio v-model="form.pay_type" label="alipay">支付宝</el-radio>
+        </el-form-item>
+        <el-form-item label="赠送时长">
+          <el-select v-model="form.goods_id" placeholder="请选择">
+            <el-option v-for="(item, index) in goodsList" :key="index" :label="item.title" :value="item.id" />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -30,7 +45,7 @@
 
 <script>
 import { formatDate } from '../../../utils';
-import { getPayOrder } from '../../../utils/api';
+import { getPayOrder, getGoodList } from '../../../utils/api';
 export default {
   data() {
     return {
@@ -40,6 +55,12 @@ export default {
       total: 0,
       // 列表参数
       params: { page: 1, num: 10 },
+      // 创建订单参数
+      form: {},
+      // 创建订单弹窗
+      dialogFormVisible: false,
+      // 商品列表
+      goodsList: [],
     };
   },
   methods: {
@@ -58,10 +79,18 @@ export default {
         this.total = res.data.rows;
       });
     },
+    // 获取商品列表
+    getGoodsList() {
+      getGoodList().then(res => {
+        this.goodsList = res.data.list;
+      });
+    },
   },
   mounted() {
     // 已支付订单
     this.getPayOrder();
+    // 获取商品列表
+    this.getGoodsList();
   },
 };
 </script>
