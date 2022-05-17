@@ -14,8 +14,6 @@ import Navigation from './components/Navigation/index.vue';
 import Breadcrumbs from './components/Breadcrumbs/index.vue';
 import { formatDate, getWeek } from './utils/index';
 import Vue from 'vue';
-import './assets/live2d/live2d.min.js';
-import { initWidget } from './assets/live2d/waifu-tips';
 export default {
   data() {
     return {
@@ -68,15 +66,10 @@ export default {
   mounted() {
     // 初始化参数
     this.initParams();
-    // 初始化live2d组件
-    initWidget({
-			cdnPath: "https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/"
-    })
   },
   created() {
     Vue.prototype._tree = JSON.parse(localStorage.getItem('tree'));
     Vue.prototype._headerCellStyle = { background: '#f5f5f5', color: '#808080' };
-    console.log(this._tree);
   },
   watch: {
     $route(to, from) {
