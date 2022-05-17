@@ -21,12 +21,11 @@
       <el-table-column label="注册时间" prop="add_time" width="140" align="center"></el-table-column>
       <el-table-column label="来源" prop="source"></el-table-column>
       <el-table-column label="支持" prop="uid"></el-table-column>
-      <!-- <el-table-column label="操作" width="300">
+      <el-table-column v-if="historyPermission" label="操作" width="100">
         <template slot-scope="scope">
           <el-button type="text" @click="$router.push(`/support/history?id=${scope.row.id}`)">查看记录</el-button>
-          <el-button type="text" @click="pull(scope.row.id)">拉取</el-button>
         </template>
-      </el-table-column> -->
+      </el-table-column>
     </el-table>
     <footer class="app-pagination-wrap">
       <el-pagination :page-sizes="pageSizes" background layout="prev, pager, next, jumper" :total="total"
@@ -39,6 +38,7 @@
 
 <script>
 import { getPubMember, supMember } from "@/utils/api";
+import { getPermission } from "@/utils/index";
 import listMixin from "@/mixins/listMixin";
 import Head from "@/components/Head/index.vue";
 import { DATE_CONST, USER_RATE_CONST } from '@/utils/const';
@@ -55,6 +55,12 @@ export default {
         { key: 'vip_end', value: '', label: '到期时间', placeholder: '请选择到期时间', type: 'select', data: DATE_CONST },
       ],
     };
+  },
+  computed: {
+    // 查看操作记录的权限
+    historyPermission() {
+      return getPermission('业务支持', '公海池', '操作记录')
+    }
   },
   methods: {
     fetchData() {

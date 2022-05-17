@@ -1,13 +1,13 @@
 <template>
   <el-dialog id="remark-form" title="设置备注" :visible.sync="dialog.show" width="600px" :close-on-click-modal="false"
     :before-close="close">
-    <el-form ref="form" :model="formData" label-position="top">
+    <el-form ref="form" :model="formData" label-position="left" label-width="100px">
       <el-form-item label="备注">
         <el-input v-model="formData.remark" placeholder="请输入备注" maxlength="150" />
       </el-form-item>
       <el-form-item label="用户等级">
         <el-select v-model="formData.support_level" clearable style="width: 100%;">
-          <el-option v-for="item in supportLevelOptions" :key="item.value" :label="item.label" :value="item.value">
+          <el-option v-for="item in supportLevelOptions" :key="item.value" :label="item.key" :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>

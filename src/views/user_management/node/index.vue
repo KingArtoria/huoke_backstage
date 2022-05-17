@@ -1,22 +1,18 @@
 <template>
   <div class="app-page">
-    <header class="app-header">
+    <header v-if="addPermission" class="app-header">
       <el-button type="primary" @click="$refs.form.open()">添加节点</el-button>
     </header>
-    <el-tree
-      :data="tableData"
-      :props="{ children: 'son', label: 'node_name' }"
-      default-expand-all
-    >
+    <el-tree :data="tableData" :props="{ children: 'son', label: 'node_name' }" default-expand-all>
       <div slot-scope="{ node, data }" class="tree-node">
         <span class="label">{{ node.label }}</span>
-        <el-button class="btn" type="text" @click="$refs.form.open(data)">
-            编辑
+        <el-button v-if="editPermission" class="btn" type="text" @click="$refs.form.open(data)">
+          编辑
         </el-button>
-        <el-button class="btn" type="text" @click="del({ id: data.id })">
+        <el-button v-if="delPermission" class="btn" type="text" @click="del({ id: data.id })">
           删除
         </el-button>
-        <el-button class="btn" type="text" @click="$refs.form.open(null, data.id)">
+        <el-button v-if="addPermission" class="btn" type="text" @click="$refs.form.open(null, data.id)">
           添加节点
         </el-button>
       </div>
@@ -29,6 +25,7 @@
 import listMixin from "@/mixins/listMixin";
 import RoleForm from "./node-form.vue";
 import { getNodeList, delNode } from "../../../utils/api";
+import { getPermission } from "../../../utils/index";
 export default {
   mixins: [listMixin],
   components: { RoleForm },
@@ -38,6 +35,20 @@ export default {
         del: delNode,
       },
     };
+  },
+  computed: {
+    // 【添加节点】权限
+    addPermission() {
+      return getPermission("用户管理", "节点管理", "添加节点");
+    },
+    // 【编辑节点】权限
+    editPermission() {
+      return getPermission("用户管理", "节点管理", "编辑节点");
+    },
+    // 【删除节点】权限
+    delPermission() {
+      return getPermission("用户管理", "节点管理", "删除节点");
+    },
   },
   methods: {
     // 获取发布内容列表

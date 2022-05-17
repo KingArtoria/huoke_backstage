@@ -15,12 +15,12 @@
         <el-table-column label="注册时间" prop="add_time" width="140" align="center"></el-table-column>
         <el-table-column label="用户等级" prop="support_level"></el-table-column>
         <el-table-column label="备注" prop="remark"></el-table-column>
-        <!-- <el-table-column label="操作" width="240">
+        <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button type="text" @click="$refs.form.open(scope.row)">设置备注</el-button>
-            <el-button type="text" @click="release(scope.row.id)">释放</el-button>
+            <el-button v-if="releasePermission" type="text" @click="release(scope.row.id)">释放</el-button>
           </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
       <footer class="app-pagination-wrap">
         <el-pagination :page-sizes="pageSizes" background layout="prev, pager, next, jumper" :total="total"
@@ -38,6 +38,7 @@ import listMixin from "@/mixins/listMixin";
 import RemarkForm from "./components/remark-form.vue";
 import Head from "@/components/Head/index.vue";
 import { DATE_CONST, USER_RATE_CONST } from '@/utils/const';
+import { getPermission } from "@/utils/index";
 export default {
   mixins: [listMixin],
   components: { RemarkForm, Head },
@@ -52,13 +53,17 @@ export default {
       ],
     };
   },
+  computed: {
+    // 【释放】权限
+    releasePermission() {
+      return getPermission('业务支持', '个人池', '释放')
+    }
+  },
   methods: {
     fetchData() {
       getPerMember(this.searchParams).then((res) => {
         res.data.list.forEach((v) => {
           v.head = "https://asd.bdhuoke.com/" + v.head;
-          // 替换v.phone中间4位为*
-          v.phone = v.phone.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2");
           v.is_tel = v.is_tel == 1 ? "是" : "否";
         });
         this.tableData = res.data.list;
