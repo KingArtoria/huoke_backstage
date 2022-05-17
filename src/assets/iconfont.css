@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3407052 */
+  src: url('iconfont.woff2?t=1652769477869') format('woff2');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xiazai44:before {
+  content: "\e619";
+}
+
+.icon-yonghu:before {
+  content: "\e639";
+}
+
+.icon-caigoudingdan:before {
+  content: "\e687";
+}
+
+.icon-baobiao:before {
+  content: "\e634";
+}
+
+.icon-kefu:before {
+  content: "\e60a";
+}
+

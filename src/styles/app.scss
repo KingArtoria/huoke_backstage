@@ -1,5 +1,6 @@
 /* 此样式文件用于定义全局通用样式，建议类名前加【app-】前缀用以区分全局样式和组件内部样式 */
 @import './override.scss'; // 覆盖element-ui默认样式
+@import '../assets/iconfont.css';
 
 .app-page {
   padding: 20px;

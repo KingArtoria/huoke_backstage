@@ -6,3 +6,17 @@
   bottom: 0;
   background: #545c64;
 }
+
+.icon {
+  margin-right: 16px;
+  width: 24px;
+  text-align: center;
+  font-size: 14px;
+  vertical-align: middle;
+  color: #bfcbd9;
+}
+.el-menu-item [class^=el-icon-].icon {
+  font-size: 14px;
+  color: #bfcbd9;
+  margin-right: 16px;
+}

@@ -2,11 +2,12 @@
   <div class="navigation">
     <el-menu @select="handleOpen" background-color="#545c64" text-color="#fff" ref="menu" :default-active="defaultActive">
       <el-menu-item index="首页" :route="{ path: '/' }">
-        <i class="el-icon-monitor"></i>
+        <i class="iconfont icon icon-xiazai44"></i>
         <span slot="title">首页</span>
       </el-menu-item>
       <el-submenu :index="item.node_name" v-for="(item, index) in _tree" :key="index">
         <template slot="title">
+          <i class="iconfont icon" :class="icon[item.node_name]"></i>
           <span>{{ item.node_name }}</span>
         </template>
         <el-menu-item :index="`/${item2.control_name}/${item2.action_name}/${item2.node_name}`" v-for="(item2, index2) in item.son" :key="index2">{{ item2.node_name }}</el-menu-item>
@@ -24,7 +25,14 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      icon: {
+        '用户管理': 'icon-yonghu',
+        '业务支持': 'icon-kefu',
+        '订单管理': 'icon-caigoudingdan',
+        '业绩报表': 'icon-baobiao',
+      }
+    };
   },
   methods: {
     // 打开菜单回调
