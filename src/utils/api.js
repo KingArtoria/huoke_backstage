@@ -239,3 +239,11 @@ export const wxPay = data => {
     data: qs.stringify(data),
   });
 };
+/* 首页 */
+export const getIndexData = data => {
+  return request({
+    method: 'POST',
+    url: '/index/index',
+    data: qs.stringify(data),
+  });
+};

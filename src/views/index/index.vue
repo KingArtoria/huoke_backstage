@@ -6,42 +6,42 @@
           <div class="content_1_1_1_1">注册人数</div>
           <div class="content_1_1_1_2">本日</div>
         </div>
-        <div class="content_1_1_2">1000</div>
+        <div class="content_1_1_2">{{ statisticsData.today_sign }}</div>
       </div>
       <div class="content_1_1">
         <div class="content_1_1_1">
           <div class="content_1_1_1_1">注册人数</div>
-          <div class="content_1_1_1_2">本日</div>
+          <div class="content_1_1_1_2">本月</div>
         </div>
-        <div class="content_1_1_2">1000</div>
+        <div class="content_1_1_2">{{ statisticsData.month_sign }}</div>
       </div>
       <div class="content_1_1">
         <div class="content_1_1_1">
-          <div class="content_1_1_1_1">注册人数</div>
+          <div class="content_1_1_1_1">新增会员</div>
           <div class="content_1_1_1_2">本日</div>
         </div>
-        <div class="content_1_1_2">1000</div>
+        <div class="content_1_1_2">{{ statisticsData.today_vip }}</div>
       </div>
       <div class="content_1_1">
         <div class="content_1_1_1">
-          <div class="content_1_1_1_1">注册人数</div>
-          <div class="content_1_1_1_2">本日</div>
+          <div class="content_1_1_1_1">新增会员</div>
+          <div class="content_1_1_1_2">本月</div>
         </div>
-        <div class="content_1_1_2">1000</div>
+        <div class="content_1_1_2">{{ statisticsData.month_vip }}</div>
       </div>
       <div class="content_1_1">
         <div class="content_1_1_1">
-          <div class="content_1_1_1_1">注册人数</div>
+          <div class="content_1_1_1_1">活跃人数</div>
           <div class="content_1_1_1_2">本日</div>
         </div>
-        <div class="content_1_1_2">1000</div>
+        <div class="content_1_1_2">{{ statisticsData.today_active }}</div>
       </div>
       <div class="content_1_1">
         <div class="content_1_1_1">
-          <div class="content_1_1_1_1">注册人数</div>
-          <div class="content_1_1_1_2">本日</div>
+          <div class="content_1_1_1_1">活跃人数</div>
+          <div class="content_1_1_1_2">本月</div>
         </div>
-        <div class="content_1_1_2">1000</div>
+        <div class="content_1_1_2">{{ statisticsData.month_active }}</div>
       </div>
     </div>
     <div class="app-card">
@@ -53,6 +53,7 @@
 <script>
 import * as echarts from "echarts";
 import _ from "lodash";
+import { getIndexData } from "@/utils/api";
 export default {
   data() {
     return {
@@ -62,7 +63,7 @@ export default {
         tooltip: {
           trigger: "axis",
         },
-        colors: ['#2080F7', '#fa92a5'],
+        colors: ["#2080F7", "#fa92a5"],
         legend: {
           data: ["本日注册", "本日会员"],
         },
@@ -131,41 +132,40 @@ export default {
         ],
       },
       chartResize: null,
+      // 统计数据
+      statisticsData: {},
     };
   },
   methods: {
     // 初始化参数
     initParams() {
-      const month = new Date().getMonth() + 1;
-      const days = new Date(new Date().getFullYear(), month, 0).getDate();
-      for (let i = 1; i <= days; i++) {
-        this.option.xAxis.data.push(month + "-" + i);
-      }
-      this.option.series[0].data = this.test(days);
-      this.option.series[1].data = this.test(days);
       this.chartDom = document.getElementById("main");
       this.myChart = echarts.init(this.chartDom);
-      this.option && this.myChart.setOption(this.option);
       this.chartResize = _.debounce(() => {
         this.myChart.resize();
       }, 300);
       // 监听窗口改动调整图表尺寸
       window.addEventListener("resize", this.chartResize);
     },
-    test(len) {
-      const arr = [];
-      for (let i = 0; i < len; i++) {
-        arr.push(this.getRandom(5, 50));
-      }
-      return arr;
-    },
-    getRandom(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
+    // 获取统计数据
+    getStatisticsData() {
+      getIndexData().then((res) => {
+        const { table_data, chart_data } = res.data;
+        this.statisticsData = table_data;
+        chart_data.member.forEach((val, ind) => {
+          this.option.xAxis.data.push(val.date);
+          this.option.series[0].data.push(chart_data.member[ind].num);
+          this.option.series[1].data.push(chart_data.vip[ind].num);
+        });
+        this.myChart.setOption(this.option);
+      });
     },
   },
   mounted() {
     // 初始化参数
     this.initParams();
+    // 获取统计数据
+    this.getStatisticsData();
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.chartResize);
