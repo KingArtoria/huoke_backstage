@@ -40,12 +40,20 @@
         <el-button type="primary" @click="createOrder">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="扫码支付" :visible.sync="isQRCodeShow">
+      <div style="display: flex; justify-content: center">
+        <div style="font-size: 18px; margin-bottom: 20px">价格：{{ qrCodeInfo.price }}</div>
+        <div style="font-size: 18px">商品：{{ qrCodeInfo.title }}</div>
+        <div id="qrcode" ref="qrcode" />
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import QRCode from 'qrcodejs2';
 import { formatDate } from '../../../utils';
-import { getPayOrder, getGoodList, saveOrder } from '../../../utils/api';
+import { getPayOrder, getGoodList, saveOrder, wxPay } from '../../../utils/api';
 export default {
   data() {
     return {
@@ -61,6 +69,10 @@ export default {
       dialogFormVisible: false,
       // 商品列表
       goodsList: [],
+      // 展示二维码
+      isQRCodeShow: false,
+      // 二维码信息
+      qrCodeInfo: {},
     };
   },
   methods: {
@@ -89,13 +101,22 @@ export default {
     createOrder() {
       this.form.give = this.form.give_time == '' ? 0 : 1;
       saveOrder(this.form).then(res => {
-        console.log(res);
+        // 根据id获取商品列表item
+        let item = this.goodsList.find(item => item.id == this.form.goods_id);
+        this.qrCodeInfo = { price: this.form.price, title: item.title };
+        this.wxPay(res.data.sn);
       });
     },
     // 微信支付
-    wxPay() {
-
-    }
+    wxPay(order_sn) {
+      wxPay({ order_sn }).then(res => {
+        this.isQRCodeShow = true;
+        this.dialogFormVisible = false;
+        this.$nextTick(() => {
+          new QRCode('qrcode', { width: 200, height: 200, text: res.data.code_url });
+        });
+      });
+    },
   },
   mounted() {
     // 已支付订单

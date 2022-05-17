@@ -11,18 +11,16 @@
         <el-table-column prop="aid" label="支持" width="60" align="center" />
       </el-table>
       <footer class="app-pagination-wrap">
-        <el-pagination :page-sizes="pageSizes" background layout="prev, pager, next, jumper" :total="total"
-          :page-size="searchParams.num" :current-page="searchParams.page" @size-change="handleSizeChange"
-          @current-change="handleCurrentChange" />
+        <el-pagination :page-sizes="pageSizes" background layout="prev, pager, next, jumper" :total="total" :page-size="searchParams.num" :current-page="searchParams.page" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
       </footer>
     </div>
   </div>
 </template>
 
 <script>
-import { formatDate } from "../../../utils";
-import { getUnPayOrder } from "../../../utils/api";
-import listMixin from "@/mixins/listMixin";
+import { formatDate } from '../../../utils';
+import { getUnPayOrder } from '../../../utils/api';
+import listMixin from '@/mixins/listMixin';
 export default {
   mixins: [listMixin],
   data() {
@@ -30,12 +28,9 @@ export default {
   },
   methods: {
     fetchData() {
-      getUnPayOrder(this.searchParams).then((res) => {
-        res.data.list.forEach((item) => {
-          item.create_time = formatDate(
-            item.create_time * 1000,
-            "yyyy-MM-dd hh:mm"
-          );
+      getUnPayOrder(this.searchParams).then(res => {
+        res.data.list.forEach(item => {
+          item.create_time = formatDate(item.create_time * 1000, 'yyyy-MM-dd hh:mm');
         });
         this.tableData = res.data.list;
         this.total = res.data.rows;
@@ -49,5 +44,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./index.scss";
+@import './index.scss';
 </style>
