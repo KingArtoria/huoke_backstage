@@ -52,7 +52,10 @@ export default {
         { key: 'support_level', value: '', label: '用户等级', placeholder: '请选择用户等级', type: 'select', data: USER_RATE_CONST },
         { key: 'vip_end', value: '', label: '到期时间', placeholder: '请选择到期时间', type: 'select', data: DATE_CONST },
       ],
-      functionParams: [{ text: '批量拉取', callback: 'batchPull' }],
+      functionParams: [
+        { text: '批量拉取', callback: 'batchPull' },
+        { text: '刷新', callback: 'fetchData' },
+      ],
       batchParams: [],
     };
   },

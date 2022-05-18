@@ -95,7 +95,10 @@ export default {
     },
     // 初始化参数
     initParams() {
-      this.functionParams = [{ text: '批量拉取', callback: 'batchPull' }];
+      this.functionParams = [
+        { text: '批量拉取', callback: 'batchPull' },
+        { text: '刷新', callback: 'fetchData' },
+      ];
     },
     // 批量拉取
     batchPull() {
