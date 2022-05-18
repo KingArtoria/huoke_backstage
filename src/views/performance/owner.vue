@@ -61,8 +61,6 @@ export default {
           if (item.remark_pic) {
             item.remark_pic = "https://asd.bdhuoke.com/" + item.remark_pic;
           }
-          // 替换v.phone中间4位为*
-          item.phone = item.phone.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2");
         });
         this.tableData = res.data.list;
         this.total = res.data.rows;

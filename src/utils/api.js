@@ -149,6 +149,7 @@ export const supMember = data => {
   return request({
     method: 'POST',
     url: '/support/membersup',
+    data: qs.stringify(data)
   });
 };
 /* 添加管理员 */
@@ -244,6 +245,14 @@ export const getIndexData = data => {
   return request({
     method: 'POST',
     url: '/index/index',
+    data: qs.stringify(data),
+  });
+};
+/* 订单标记 */
+export const order_mark = data => {
+  return request({
+    method: 'POST',
+    url: '/order/order_mark',
     data: qs.stringify(data),
   });
 };

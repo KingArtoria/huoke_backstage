@@ -3,9 +3,9 @@
   <div class="app-wrap">
     <!-- <Search :searchParams="searchParams" @search="search" /> -->
     <div class="app-card">
-      <Head :searchParams="templateParams" @searchList="doSearch" />
-      <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border
-        element-loading-spinner="el-icon-loading" element-loading-text="加载中，请稍候……">
+      <Head :searchParams="templateParams" @searchList="doSearch" :functionParams="functionParams" @functionClick="functionClick" />
+      <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border element-loading-spinner="el-icon-loading" element-loading-text="加载中，请稍候……" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="ID" prop="id" width="60" align="center"></el-table-column>
         <el-table-column label="账号" prop="account"></el-table-column>
         <el-table-column label="昵称" prop="nick_name"></el-table-column>
@@ -28,20 +28,18 @@
         </el-table-column>
       </el-table>
       <footer class="app-pagination-wrap">
-        <el-pagination :page-sizes="pageSizes" background layout="prev, pager, next, jumper" :total="total"
-          :page-size="searchParams.num" :current-page="searchParams.page" @size-change="handleSizeChange"
-          @current-change="handleCurrentChange" />
+        <el-pagination :page-sizes="pageSizes" background layout="total,prev, pager, next, jumper" :total="total" :page-size="searchParams.num" :current-page="searchParams.page" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
       </footer>
     </div>
   </div>
 </template>
 
 <script>
-import { getGroMember, supMember } from "@/utils/api";
-import listMixin from "@/mixins/listMixin";
-import Head from "@/components/Head/index.vue";
+import { getGroMember, supMember } from '@/utils/api';
+import listMixin from '@/mixins/listMixin';
+import Head from '@/components/Head/index.vue';
 import { DATE_CONST, USER_RATE_CONST } from '@/utils/const';
-import { getPermission } from "@/utils/index";
+import { getPermission } from '@/utils/index';
 export default {
   mixins: [listMixin],
   components: { Head },
@@ -54,35 +52,35 @@ export default {
         { key: 'support_level', value: '', label: '用户等级', placeholder: '请选择用户等级', type: 'select', data: USER_RATE_CONST },
         { key: 'vip_end', value: '', label: '到期时间', placeholder: '请选择到期时间', type: 'select', data: DATE_CONST },
       ],
+      functionParams: [{ text: '批量拉取', callback: 'batchPull' }],
+      batchParams: [],
     };
   },
   computed: {
     // 【拉取】权限
     pullPermission() {
-      return getPermission('业务支持', '组长池', '拉取')
-    }
+      return getPermission('业务支持', '组长池', '拉取');
+    },
   },
   methods: {
     fetchData() {
-      getGroMember(this.searchParams).then((res) => {
-        res.data.list.forEach((v) => {
-          v.head = "https://asd.bdhuoke.com/" + v.head;
-          v.phone = v.phone.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2");
-          v.account = v.account.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2");
+      getGroMember(this.searchParams).then(res => {
+        res.data.list.forEach(v => {
+          v.head = 'https://asd.bdhuoke.com/' + v.head;
         });
         this.tableData = res.data.list;
         this.total = res.data.rows;
       });
     },
     pull(id) {
-      this.$confirm("确定拉取吗", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('确定拉取吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
           supMember({ id }).then(() => {
-            this.$message.success("操作成功");
+            this.$message.success('操作成功');
             this.fetchData();
           });
         })
@@ -91,6 +89,23 @@ export default {
     doSearch(params) {
       this.searchParams = Object.assign(this.searchParams, params);
       this.search();
+    },
+    handleSelectionChange(value) {
+      // 赋值所有id
+      this.batchParams = value.map(v => v.id);
+    },
+    // 按钮点击回调
+    functionClick(params) {
+      this[params]();
+    },
+    // 批量拉取
+    batchPull() {
+      this.batchParams.forEach(item => {
+        supMember({ id: item }).then(() => {
+          this.$message.success('操作成功');
+          this.fetchData();
+        });
+      });
     },
   },
   mounted() {

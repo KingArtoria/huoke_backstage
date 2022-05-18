@@ -15,7 +15,7 @@
         <el-table-column prop="remark" label="备注" />
       </el-table>
       <div class="content_1">
-        <el-pagination background layout="prev, pager, next,jumper" :total="total" @current-change="changePage" />
+        <el-pagination background layout="total,prev, pager, next,jumper" :total="total" @current-change="changePage" />
       </div>
     </div>
   </div>
@@ -47,8 +47,6 @@ export default {
       getAllMember(this.params).then(res => {
         res.data.list.forEach(item => {
           item.is_tel = item.is_tel == 1 ? '是' : '否';
-          // 把item.phone中间4位替换成*
-          item.phone = item.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
           item.vip_endtime = item.vip_endtime == 0 ? '未开通' : formatDate(item.vip_endtime * 1000, 'yyyy-MM-dd');
         });
         this.userList = res.data.list;
@@ -68,6 +66,7 @@ export default {
         { key: 'uid', value: '', label: '支持', placeholder: '请输入支持', type: 'input' },
         { key: 'support_level', value: '', label: '用户等级', placeholder: '请选择用户等级', type: 'select', data: USER_RATE_CONST },
         { key: 'vip_end', value: '', label: '到期时间', placeholder: '请选择到期时间', type: 'select', data: DATE_CONST },
+        { key: 'add_time', value: '', label: '注册时间', placeholder: '请选择到期时间', type: 'select', data: DATE_CONST },
       ];
     },
   },
