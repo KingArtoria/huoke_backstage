@@ -13,8 +13,11 @@
         <el-table-column prop="aid" label="支持" width="60" align="center" />
         <el-table-column prop="sn" label="订单编号" />
         <el-table-column label="标记">
-          <template slot-scope="s">
-            <img :src="s.row.remark_pic" v-if="s.row.remark_pic" />
+          <template slot-scope="scope">
+            <el-image v-if="scope.row.remark_pic" class="img" :src="scope.row.remark_pic"
+              :preview-src-list="[scope.row.remark_pic]">
+            </el-image>
+            <!-- <img :src="s.row.remark_pic" v-if="s.row.remark_pic" /> -->
           </template>
         </el-table-column>
         <el-table-column label="操作" width="50" align="center">
