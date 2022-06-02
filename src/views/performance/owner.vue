@@ -12,7 +12,6 @@
         <el-table-column label="创建时间" prop="create_time" width="150" align="center"></el-table-column>
         <el-table-column label="备注" prop="remark_pic" width="80" align="center">
           <template slot-scope="scope">
-            <!-- <img v-if="scope.row.remark_pic" :src="scope.row.remark_pic" alt=""  /> -->
             <el-image v-if="scope.row.remark_pic" class="img" :src="scope.row.remark_pic"
               :preview-src-list="[scope.row.remark_pic]">
             </el-image>
@@ -58,9 +57,6 @@ export default {
             item.create_time * 1000,
             "yyyy-MM-dd hh:mm"
           );
-          if (item.remark_pic) {
-            item.remark_pic = "https://asd.bdhuoke.com/" + item.remark_pic;
-          }
         });
         this.tableData = res.data.list;
         this.total = res.data.rows;
