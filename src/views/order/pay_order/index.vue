@@ -2,19 +2,26 @@
   <div>
     <div class="content app-page">
       <header class="app-header header">
+        <el-form inline>
+          <el-form-item label="输入手机号">
+            <el-input v-model="params.phone" placeholder="输入手机号" @input="debounceInput" />
+          </el-form-item>
+        </el-form>
         <el-button type="primary" @click="dialogFormVisible = true">创建订单</el-button>
       </header>
       <el-table border :header-cell-style="_headerCellStyle" :data="payOrderList">
         <el-table-column prop="create_time" label="购买时间" width="140" align="center" />
-        <el-table-column prop="phone" label="联系方式" width="100" align="center" />
+        <el-table-column prop="phone" label="联系方式" width="110" align="center" />
         <el-table-column prop="source" label="用户来源" />
         <el-table-column prop="title" label="购买种类" />
         <el-table-column prop="price" label="购买金额" width="80" align="right" />
-        <el-table-column prop="aid" label="支持" width="60" align="center" />
+        <el-table-column prop="aid" label="支持" width="70" align="center" />
         <el-table-column prop="sn" label="订单编号" />
-        <el-table-column label="标记">
+        <el-table-column label="标记" width="50" align="center">
           <template slot-scope="s">
-            <img :src="s.row.remark_pic" v-if="s.row.remark_pic" />
+            <el-button type="text" v-if="s.row.remark_pic" @click="openPic(s.row.remark_pic)">查看
+            </el-button>
+            <!-- <img :src="s.row.remark_pic" v-if="s.row.remark_pic" /> -->
           </template>
         </el-table-column>
         <el-table-column label="操作" width="50" align="center">
@@ -46,6 +53,7 @@
           <el-radio v-model="form.pay_type" label="yhk">银行卡</el-radio>
           <el-radio v-model="form.pay_type" label="dgzh">对公打款</el-radio>
           <el-radio v-model="form.pay_type" label="bd">补单</el-radio>
+          <el-radio v-model="form.pay_type" label="wx_other">微信转账</el-radio>
         </el-form-item>
         <el-form-item label="赠送时长">
           <el-input v-model="form.give_time" type="number" placeholder="天(只填数字!只填数字!只填数字!)" />
@@ -67,7 +75,8 @@
     <el-dialog title="标记订单" :visible.sync="orderMarkShow">
       <el-form :model="form" label-width="1rem" label-position="left" width="10rem">
         <el-form-item label="上传图片">
-          <el-upload class="upload-demo" action="http://nad.bdhuoke.com/admin/support/uploadImg" :multiple="false" :limit="1" :headers="{ token }" :on-success="uploadSuccess">
+          <el-upload class="upload-demo" action="http://nad.bdhuoke.com/admin/support/uploadImg" :multiple="false"
+            :limit="1" :headers="{ token }" :on-success="uploadSuccess">
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
@@ -84,6 +93,7 @@
 import QRCode from 'qrcodejs2';
 import { formatDate } from '../../../utils';
 import { getPayOrder, getGoodList, saveOrder, wxPay, order_mark } from '../../../utils/api';
+import _ from 'lodash';
 export default {
   data() {
     return {
@@ -106,7 +116,10 @@ export default {
       orderMarkShow: false,
       token: '',
       // 标记订单参数
-      markForm: {},
+      markForm: {},  // 输入防抖
+      debounceInput: _.debounce(() => {
+        this.getPayOrder();
+      }, 300),
     };
   },
   methods: {
@@ -175,6 +188,9 @@ export default {
     // 图片上传成功回调
     uploadSuccess(res) {
       this.markForm.remark_pic = `http://nad.bdhuoke.com/${res.data}`;
+    },
+    openPic(url) {
+      window.open(url);
     },
   },
   mounted() {

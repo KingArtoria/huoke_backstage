@@ -1,8 +1,14 @@
 <template>
   <div class="app-wrap">
     <div class="app-card">
-
-      <Head :searchParams="templateParams" @searchList="doSearch" />
+      <header class="app-header header">
+        <el-form inline>
+          <el-form-item>
+            <el-date-picker v-model="dateParams" clearable placeholder="选择周期" type="daterange"
+              value-format="yyyy-MM-dd HH:mm:ss" @change="searchList" />
+          </el-form-item>
+        </el-form>
+      </header>
       <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border
         element-loading-spinner="el-icon-loading" element-loading-text="加载中，请稍候……">
         <el-table-column label="姓名" prop="aid" align="center"></el-table-column>
@@ -36,6 +42,13 @@ export default {
           placeholder: "请选择",
           type: "select",
           data: REPORT_DATE_TYPE,
+        },
+        {
+          key: "date",
+          value: "",
+          label: "月",
+          placeholder: "请选择",
+          type: "month",
         },
       ],
       option: {
@@ -132,9 +145,23 @@ export default {
       },
       chart: null,
       chartResize: null,
+      params: { page: 1, num: 10 },
+      dateParams: [],
     };
   },
   methods: {
+    searchList() {
+      if (this.dateParams === null) {
+        // 在params对象中删除star和end字段
+        delete this.params.star;
+        delete this.params.end;
+        this.doSearch(this.params)
+        return
+      }
+      this.params.star = this.dateParams[0];
+      this.params.end = this.dateParams[1];
+      this.doSearch(this.params)
+    },
     fetchData() {
       getAllPerformance(this.searchParams).then((res) => {
         this.option.xAxis.data.length = 0;
