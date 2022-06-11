@@ -3,23 +3,27 @@
   <div class="app-wrap">
     <!-- <Search :searchParams="searchParams" @search="search" /> -->
     <div class="app-card">
-      <Head :searchParams="templateParams" @searchList="doSearch" :functionParams="functionParams" @functionClick="functionClick" />
-      <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border element-loading-spinner="el-icon-loading" element-loading-text="加载中，请稍候……" @selection-change="handleSelectionChange">
+
+      <Head :searchParams="templateParams" @searchList="doSearch" :functionParams="functionParams"
+        @functionClick="functionClick" />
+      <el-table v-loading="tableLoading" :data="tableData" :header-cell-style="_headerCellStyle" border
+        element-loading-spinner="el-icon-loading" element-loading-text="加载中，请稍候……"
+        @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="ID" prop="id" width="60" align="center"></el-table-column>
         <el-table-column label="账号" prop="account"></el-table-column>
-        <el-table-column label="昵称" prop="nick_name"></el-table-column>
-        <el-table-column label="真实姓名" prop="real_name" width="80" align="center"></el-table-column>
-        <el-table-column label="公司" prop="company"></el-table-column>
-        <el-table-column label="头像" prop="head" width="80" align="center">
+        <!-- <el-table-column label="头像" prop="head" width="80" align="center">
           <template slot-scope="scope">
             <img :src="scope.row.head" alt="" class="img" />
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="手机" prop="phone" width="120" align="center"></el-table-column>
         <el-table-column label="vip" prop="is_vip" width="80" align="center"></el-table-column>
         <el-table-column label="注册时间" prop="add_time" width="140" align="center"></el-table-column>
         <el-table-column label="来源" prop="source"></el-table-column>
+        <el-table-column label="等级" prop="support_level" align="center" width="50"></el-table-column>
+        <el-table-column label="关键词" prop="keyWord"></el-table-column>
+        <el-table-column label="备注" prop="remark"></el-table-column>
         <el-table-column label="支持" prop="uid"></el-table-column>
         <el-table-column v-if="historyPermission" label="操作" width="110" align="center">
           <template slot-scope="scope">
@@ -29,7 +33,9 @@
         </el-table-column>
       </el-table>
       <footer class="app-pagination-wrap">
-        <el-pagination :page-sizes="pageSizes" background layout="total,prev, pager, next, jumper" :total="total" :page-size="searchParams.num" :current-page="searchParams.page" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+        <el-pagination :page-sizes="pageSizes" background layout="total,prev, pager, next, jumper" :total="total"
+          :page-size="searchParams.num" :current-page="searchParams.page" @size-change="handleSizeChange"
+          @current-change="handleCurrentChange" />
       </footer>
     </div>
   </div>
@@ -87,7 +93,7 @@ export default {
             this.fetchData();
           });
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     doSearch(params) {
       this.searchParams = Object.assign(this.searchParams, params);
