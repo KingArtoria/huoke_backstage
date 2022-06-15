@@ -6,13 +6,25 @@
           <el-form-item label="输入手机号">
             <el-input v-model="params.phone" placeholder="输入手机号" @input="debounceInput" />
           </el-form-item>
+          <el-form-item label="输入手机号">
+            <el-input v-model="params.source" placeholder="用户来源" @input="debounceInput" />
+          </el-form-item>
+          <el-form-item>
+            <el-date-picker v-model="dateParams" clearable placeholder="选择周期" type="daterange"
+              value-format="yyyy-MM-dd HH:mm:ss" @change="searchList" />
+          </el-form-item>
         </el-form>
-        <el-button type="primary" @click="dialogFormVisible = true">创建订单</el-button>
+        <div>
+          <el-button type="primary" @click="dialogFormVisible = true">创建订单</el-button>
+          <el-button type="primary" @click="exportListData">导出</el-button>
+        </div>
       </header>
       <el-table border :header-cell-style="_headerCellStyle" :data="payOrderList">
         <el-table-column prop="create_time" label="购买时间" width="140" align="center" />
         <el-table-column prop="phone" label="联系方式" width="110" align="center" />
         <el-table-column prop="source" label="用户来源" />
+        <el-table-column prop="keyword" label="关键词" />
+        <el-table-column prop="add_time" label="注册时间" />
         <el-table-column prop="title" label="购买种类" />
         <el-table-column prop="price" label="购买金额" width="80" align="right" />
         <el-table-column prop="aid" label="支持" width="70" align="center" />
@@ -95,6 +107,7 @@ import QRCode from 'qrcodejs2';
 import { formatDate } from '../../../utils';
 import { getPayOrder, getGoodList, saveOrder, wxPay, order_mark } from '../../../utils/api';
 import _ from 'lodash';
+import excel from "../../../vendor/Export2Excel";
 export default {
   data() {
     return {
@@ -121,9 +134,47 @@ export default {
       debounceInput: _.debounce(() => {
         this.getPayOrder();
       }, 300),
+      dateParams: []
     };
   },
   methods: {
+    exportListData() {
+      this.params.num = 99999
+      getPayOrder(this.params).then((res) => {
+        res.data.list.forEach(item => {
+          item.create_time = formatDate(item.create_time, 'yyyy-MM-dd')
+        });
+        excel.exportArrayToExcel({
+          title: [
+            "购买时间",
+            "联系方式",
+            "用户来源",
+            "关键词",
+            "注册时间",
+            "购买种类",
+            "购买金额",
+            "支持",
+            "订单编号",
+          ],
+          key: ["create_time", "phone", "source", "keyword", "add_time", "title", "price", "aid", "sn"],
+          data: res.data.list,
+          autoWidth: true,
+          filename: "已支付订单",
+        });
+      });
+    },
+    searchList() {
+      if (this.dateParams === null) {
+        // 在params对象中删除star和end字段
+        delete this.params.star;
+        delete this.params.end;
+        this.getPayOrder()
+        return
+      }
+      this.params.star = this.dateParams[0];
+      this.params.end = this.dateParams[1];
+      this.getPayOrder()
+    },
     // 更改页码
     changePage(page) {
       this.params.page = page;
