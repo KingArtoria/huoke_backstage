@@ -208,6 +208,8 @@ export default {
         } else if (res.code == 2) {
           this.$message.success('操作成功');
           this.dialogFormVisible = false;
+        } else {
+          this.$message.error(res.msg)
         }
       });
     },
