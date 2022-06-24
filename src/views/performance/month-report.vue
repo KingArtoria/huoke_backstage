@@ -71,7 +71,7 @@ export default {
             axisLine: {
               show: true,
             },
-            max: 10000,
+            max: 50000,
           },
         ],
         series: [
