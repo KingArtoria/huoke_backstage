@@ -34,6 +34,7 @@ export default {
         '订单管理': 'icon-caigoudingdan',
         '业绩报表': 'icon-baobiao',
         '推广管理': 'icon-baobiao',
+        '项目管理': 'icon-baobiao',
       }
     };
   },

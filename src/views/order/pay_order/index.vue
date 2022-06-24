@@ -6,8 +6,14 @@
           <el-form-item label="输入手机号">
             <el-input v-model="params.phone" placeholder="输入手机号" @input="debounceInput" />
           </el-form-item>
-          <el-form-item label="输入手机号">
+          <el-form-item label="输入用户来源">
             <el-input v-model="params.source" placeholder="用户来源" @input="debounceInput" />
+          </el-form-item>
+          <el-form-item label="支持">
+            <el-select v-model="params.aid" placeholder="请选择" @change="searchList">
+              <el-option v-for="item in selectParams" :key="item.id" :label="item.real_name" :value="item.id">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item>
             <el-date-picker v-model="dateParams" clearable placeholder="选择周期" type="daterange"
@@ -134,7 +140,8 @@ export default {
       debounceInput: _.debounce(() => {
         this.getPayOrder();
       }, 300),
-      dateParams: []
+      dateParams: [],
+      selectParams: [],
     };
   },
   methods: {
@@ -142,7 +149,7 @@ export default {
       this.params.num = 99999
       getPayOrder(this.params).then((res) => {
         res.data.list.forEach(item => {
-          item.create_time = formatDate(item.create_time, 'yyyy-MM-dd')
+          item.create_time = formatDate(item.create_time * 1000, 'yyyy-MM-dd')
         });
         excel.exportArrayToExcel({
           title: [
@@ -188,6 +195,7 @@ export default {
         });
         this.payOrderList = res.data.list;
         this.total = res.data.rows;
+        this.selectParams = res.data.select
       });
     },
     // 获取商品列表

@@ -19,6 +19,7 @@ const AllPerformance = () => import('../views/performance/all.vue')
 const OwnerPerformance = () => import('../views/performance/owner.vue')
 const MonthReport = () => import('../views/performance/month-report.vue')
 const UserList = () => import('../views/promote/user_list.vue')
+const ProjectList = () => import('../views/project/list.vue')
 const routes = [
   { path: '/', name: 'Index', component: Index },
   { path: '/login', name: 'Login', component: Login },
@@ -37,6 +38,7 @@ const routes = [
   { path: '/order/user_order', name: 'OwnerPerformance', component: OwnerPerformance },
   { path: '/support/report_info', name: 'MonthReport', component: MonthReport },
   { path: '/promote/user_list', name: 'UserList', component: UserList },
+  { path: '/project/list', name: 'ProjectList', component: ProjectList },
 ]
 
 const router = new VueRouter({

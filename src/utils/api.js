@@ -256,3 +256,19 @@ export const order_mark = data => {
     data: qs.stringify(data),
   });
 };
+/* 项目列表 */
+export const getComprehensiveList = data => {
+  return request({
+    method: 'POST',
+    url: '/Comprehensive/list',
+    data: qs.stringify(data),
+  });
+};
+/* 删除项目 */
+export const ComprehensiveDel = data => {
+  return request({
+    method: 'POST',
+    url: '/Comprehensive/del',
+    data: qs.stringify(data),
+  });
+};
