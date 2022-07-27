@@ -21,6 +21,7 @@
         <el-table-column label="来源" prop="source"></el-table-column>
         <el-table-column label="支持" prop="uid"></el-table-column>
         <el-table-column label="关键词" prop="keyWord" />
+        <el-table-column label="组" prop="group" />
         <el-table-column v-if="pullPermission" label="操作" width="100">
           <template slot-scope="scope">
             <el-button type="text" @click="pull(scope.row.id)">拉取</el-button>
@@ -33,6 +34,20 @@
           @current-change="handleCurrentChange" />
       </footer>
     </div>
+    <el-dialog title="分配" :visible.sync="dialogFormVisible">
+      <el-form>
+        <el-form-item label="分配人">
+          <el-select placeholder="分配人" v-model="distributionParams.group">
+            <el-option v-for="(item, index) in distributionList" :key="index" :label="item.role_name"
+              :value="item.id" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="okDistribution">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -42,6 +57,7 @@ import listMixin from '@/mixins/listMixin';
 import Head from '@/components/Head/index.vue';
 import { DATE_CONST, USER_RATE_CONST } from '@/utils/const';
 import { getPermission } from '@/utils/index';
+import { distribution } from '../../../utils/api';
 export default {
   mixins: [listMixin],
   components: { Head },
@@ -59,12 +75,19 @@ export default {
         { text: '刷新', callback: 'fetchData' },
       ],
       batchParams: [],
+      distributionParams: {},
+      distributionList: [],
+      dialogFormVisible: false
     };
   },
   computed: {
     // 【拉取】权限
     pullPermission() {
       return getPermission('业务支持', '组长池', '拉取');
+    },
+    // 【分配】权限
+    pullPermission2() {
+      return getPermission('业务支持', '组长池', '分配');
     },
   },
   methods: {
@@ -84,7 +107,7 @@ export default {
         type: 'warning',
       })
         .then(() => {
-          supMember({ id }).then(() => {
+          supMember({ id, mark: "组长池" }).then(() => {
             this.$message.success('操作成功');
             this.fetchData();
           });
@@ -96,8 +119,11 @@ export default {
       this.search();
     },
     handleSelectionChange(value) {
+      console.log(value);
       // 赋值所有id
       this.batchParams = value.map(v => v.id);
+      this.distributionParams.id = value.map(v => v.id)
+      console.log(this.distributionParams.id)
     },
     // 按钮点击回调
     functionClick(params) {
@@ -106,15 +132,36 @@ export default {
     // 批量拉取
     batchPull() {
       this.batchParams.forEach(item => {
-        supMember({ id: item }).then(() => {
+        supMember({ id: item, mark: "组长池" }).then(() => {
           this.$message.success('操作成功');
           this.fetchData();
         });
       });
     },
+    distribute() {
+      this.dialogFormVisible = true
+    },
+    distribution() {
+      distribution().then(res => {
+        this.distributionList = res.data.select
+      })
+    },
+    okDistribution() {
+      this.distributionParams.id = this.distributionParams.id.join(',')
+      distribution(this.distributionParams).then(res => {
+        if (res.code == -1) return this.$message.error(res.msg)
+        this.$message.success('操作成功')
+        this.dialogFormVisible = false
+        this.fetchData()
+      })
+    },
   },
   mounted() {
+    if (this.pullPermission2) {
+      this.functionParams.push({ text: '分配', callback: 'distribute' })
+    }
     this.fetchData();
+    this.distribution()
   },
 };
 </script>

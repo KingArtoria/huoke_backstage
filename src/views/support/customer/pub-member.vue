@@ -88,7 +88,7 @@ export default {
         type: 'warning',
       })
         .then(() => {
-          supMember({ id }).then(() => {
+          supMember({ id, mark: "公海池" }).then(() => {
             this.$message.success('操作成功');
             this.fetchData();
           });
@@ -109,7 +109,7 @@ export default {
     // 批量拉取
     batchPull() {
       this.batchParams.forEach(item => {
-        supMember({ id: item }).then(() => {
+        supMember({ id: item, mark: "公海池" }).then(() => {
           this.$message.success('操作成功');
           this.fetchData();
         });

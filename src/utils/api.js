@@ -272,3 +272,19 @@ export const ComprehensiveDel = data => {
     data: qs.stringify(data),
   });
 };
+/* 分配 */
+export const distribution = data => {
+  return request({
+    method: 'POST',
+    url: '/support/distribution',
+    data: qs.stringify(data),
+  });
+};
+/* 更改电话数量 */
+export const setPhoneNum = data => {
+  return request({
+    method: 'POST',
+    url: '/user/set_phone_num',
+    data: qs.stringify(data),
+  });
+};
