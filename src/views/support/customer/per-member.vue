@@ -14,7 +14,11 @@
         <el-table-column label="关键词" prop="keyWord"></el-table-column>
         <el-table-column label="注册时间" prop="add_time" width="140" align="center"></el-table-column>
         <el-table-column label="用户等级" prop="support_level"></el-table-column>
-        <el-table-column label="备注" prop="remark"></el-table-column>
+        <el-table-column label="备注" prop="remark">
+          <template slot-scope="s">
+            <span :style="`color:${s.row == null ? '#fff' : 'red'}`">{{ s.row.remark }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button type="text" @click="$refs.form.open(scope.row)">设置备注</el-button>

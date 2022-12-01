@@ -38,6 +38,20 @@
           @current-change="handleCurrentChange" />
       </footer>
     </div>
+    <el-dialog title="分配" :visible.sync="dialogFormVisible">
+      <el-form>
+        <el-form-item label="分配人">
+          <el-select placeholder="分配人" v-model="distributionParams.group">
+            <el-option v-for="(item, index) in distributionList" :key="index" :label="item.role_name"
+              :value="item.id" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="okDistribution">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -47,6 +61,7 @@ import { getPermission } from '@/utils/index';
 import listMixin from '@/mixins/listMixin';
 import Head from '@/components/Head/index.vue';
 import { DATE_CONST, USER_RATE_CONST } from '@/utils/const';
+import { distribution } from '../../../utils/api';
 export default {
   mixins: [listMixin],
   components: { Head },
@@ -63,9 +78,16 @@ export default {
       functionParams: [],
       // 批量拉群参数
       batchParams: [],
+      dialogFormVisible: false,
+      distributionParams: {},
+      distributionList: [],
     };
   },
   computed: {
+    // 【分配】权限
+    pullPermission2() {
+      return getPermission('业务支持', '公海池', '分配');
+    },
     // 查看操作记录的权限
     historyPermission() {
       return getPermission('业务支持', '公海池', '操作记录');
@@ -105,6 +127,9 @@ export default {
         { text: '批量拉取', callback: 'batchPull' },
         { text: '刷新', callback: 'fetchData' },
       ];
+      if (this.pullPermission2) {
+        this.functionParams.push({ text: '分配', callback: 'distribute' })
+      }
     },
     // 批量拉取
     batchPull() {
@@ -119,16 +144,35 @@ export default {
     handleSelectionChange(value) {
       // 赋值value中所有的id
       this.batchParams = value.map(v => v.id);
+      this.distributionParams.id = value.map(v => v.id)
     },
     // 按钮点击回调
     functionClick(params) {
       console.log(params);
       this[params]();
     },
+    distribution() {
+      distribution().then(res => {
+        this.distributionList = res.data.select
+      })
+    },
+    okDistribution() {
+      this.distributionParams.id = this.distributionParams.id.join(',')
+      distribution(this.distributionParams).then(res => {
+        if (res.code == -1) return this.$message.error(res.msg)
+        this.$message.success('操作成功')
+        this.dialogFormVisible = false
+        this.fetchData()
+      })
+    },
+    distribute() {
+      this.dialogFormVisible = true
+    },
   },
   mounted() {
     this.initParams();
     this.fetchData();
+    this.distribution()
   },
 };
 </script>

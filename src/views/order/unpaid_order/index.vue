@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrap">
     <div class="app-card">
-      <el-table border :header-cell-style="_headerCellStyle" :data="tableData">
+      <el-table border :header-cell-style="_headerCellStyle" :data="tableData" v-loading="tableLoading">
         <el-table-column prop="create_time" label="创建时间" width="140" align="center" />
         <el-table-column prop="phone" label="联系方式" width="110" align="center" />
         <el-table-column prop="source" label="用户来源" />
@@ -16,9 +16,7 @@
         </el-table-column>
       </el-table>
       <footer class="app-pagination-wrap">
-        <el-pagination :page-sizes="pageSizes" background layout="prev, pager, next, jumper" :total="total"
-          :page-size="searchParams.num" :current-page="searchParams.page" @size-change="handleSizeChange"
-          @current-change="handleCurrentChange" />
+        <el-pagination :page-sizes="pageSizes" background layout="prev, pager, next, jumper" :total="total" :page-size="searchParams.num" :current-page="searchParams.page" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
       </footer>
     </div>
     <el-dialog title="扫码支付" :visible.sync="isQRCodeShow">
@@ -43,16 +41,19 @@ export default {
     return {
       isQRCodeShow: false,
       qrCodeInfo: {},
+      tableLoading: false,
     };
   },
   methods: {
     fetchData() {
+      this.tableLoading = true;
       getUnPayOrder(this.searchParams).then(res => {
         res.data.list.forEach(item => {
           item.create_time = formatDate(item.create_time * 1000, 'yyyy-MM-dd hh:mm');
         });
         this.tableData = res.data.list;
         this.total = res.data.rows;
+        this.tableLoading = false;
       });
     },
     // 微信支付

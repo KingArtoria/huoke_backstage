@@ -288,3 +288,19 @@ export const setPhoneNum = data => {
     data: qs.stringify(data),
   });
 };
+/* 开启/关闭限制 */
+export const setNum = data => {
+  return request({
+    method: 'POST',
+    url: '/support/set_num',
+    data: qs.stringify(data),
+  });
+};
+/* 禁用管理员 */
+export const setstatus = data => {
+  return request({
+    method: 'POST',
+    url: '/user/setstatus',
+    data: qs.stringify(data),
+  });
+};

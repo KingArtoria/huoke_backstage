@@ -7,6 +7,7 @@
       <el-table border :header-cell-style="_headerCellStyle" :data="userList">
         <el-table-column prop="id" label="管理员ID" width="80" align="center" />
         <el-table-column prop="user_name" label="管理员名称" />
+        <el-table-column prop="role" label="角色" />
         <el-table-column prop="phone_num" label="数量">
           <template slot-scope="s">
             <el-input-number @change="setPhoneNum(s.row)" v-model="s.row.phone_num" label="电话数量" />
@@ -20,19 +21,19 @@
         <el-table-column label="状态" width="70" align="center">
           <template slot-scope="s">
             <el-tag type="success" v-if="s.row.status === '正常'">{{ s.row.status }}</el-tag>
-            <el-tag type="success" v-if="s.row.danger === '禁用'">{{ s.row.status }}</el-tag>
+            <el-tag type="danger" v-if="s.row.status === '禁用'">{{ s.row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180" align="center">
+        <el-table-column label="操作" width="240" align="center">
           <template slot-scope="s">
+            <el-button type="text" @click="setstatus(s.row)" v-if="disablePermission">更改账号状态</el-button>
             <el-button type="text" @click="userdel(s.row)" v-if="delPermission">删除管理员</el-button>
             <el-button type="text" @click="beforeEdit(s.row)" v-if="editPermission">编辑管理员</el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="content_1">
-        <el-pagination background layout="prev, pager, next,jumper" :total="userListTotal"
-          @current-change="changePage" />
+        <el-pagination background layout="prev, pager, next,jumper" :total="userListTotal" @current-change="changePage" />
       </div>
     </div>
     <el-dialog title="编辑管理员" :visible.sync="dialogFormVisible">
@@ -87,7 +88,7 @@
 
 <script>
 import { formatDate, getPermission } from '../../../utils';
-import { getRoleList, getUserList, setPhoneNum, useradd, userdel, useredit } from '../../../utils/api';
+import { getRoleList, getUserList, setPhoneNum, setstatus, useradd, userdel, useredit } from '../../../utils/api';
 export default {
   data() {
     return {
@@ -115,6 +116,8 @@ export default {
       delPermission: '',
       // 更改数量参数
       phoneNumParams: {},
+      // 禁用管理员权限
+      disablePermission: '',
     };
   },
   methods: {
@@ -183,12 +186,21 @@ export default {
       this.addPermission = getPermission('用户管理', '管理员管理', '添加管理员');
       this.editPermission = getPermission('用户管理', '管理员管理', '编辑管理员');
       this.delPermission = getPermission('用户管理', '管理员管理', '删除管理员');
+      this.disablePermission = getPermission('用户管理', '管理员管理', '更改状态');
     },
     // 更改电话数量
     setPhoneNum(item) {
-      console.log(item)
+      console.log(item);
       this.phoneNumParams = { uid: item.id, num: item.phone_num };
       setPhoneNum(this.phoneNumParams).then(res => {
+        if (res.code != 1) return this.$message.error(res.msg);
+        this.$message.success('修改成功');
+        this.getUserList();
+      });
+    },
+    // 更改状态
+    setstatus(row) {
+      setstatus({ uid: row.id }).then(res => {
         if (res.code != 1) return this.$message.error(res.msg);
         this.$message.success('修改成功');
         this.getUserList();

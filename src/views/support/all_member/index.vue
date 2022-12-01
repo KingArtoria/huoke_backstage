@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="content app-page">
-      <Head :searchParams="headParams" @searchList="getAllMember" />
-      <el-table border :header-cell-style="_headerCellStyle" :data="userList">
+      <Head :searchParams="headParams" @searchList="getAllMember" :functionParams="functionParams" @functionClick="functionClick" />
+      <el-table border :header-cell-style="_headerCellStyle" :data="userList" v-loading="tableLoading">
         <el-table-column prop="id" label="用户ID" width="80" align="center" />
         <el-table-column prop="phone" label="联系方式" width="120" align="center" />
         <el-table-column prop="add_time" label="注册时间" width="140" align="center" />
@@ -26,6 +26,7 @@ import Head from '../../../components/Head/index.vue';
 import { DATE_CONST, USER_RATE_CONST } from '../../../utils/const';
 import { formatDate } from '../../../utils';
 import { getAllMember } from '../../../utils/api';
+import excel from '../../../vendor/Export2Excel';
 export default {
   data() {
     return {
@@ -37,12 +38,15 @@ export default {
       total: 0,
       // head参数
       headParams: [],
+      functionParams: [{ text: '导出', callback: 'batchPull' }],
+      tableLoading: false,
     };
   },
   methods: {
     // 查询所有用户
     getAllMember(params) {
       // 对象合并
+      this.tableLoading = true;
       Object.assign(this.params, params);
       getAllMember(this.params).then(res => {
         res.data.list.forEach(item => {
@@ -51,6 +55,7 @@ export default {
         });
         this.userList = res.data.list;
         this.total = res.data.rows;
+        this.tableLoading = false;
       });
     },
     // 更改页码
@@ -68,6 +73,22 @@ export default {
         { key: 'vip_end', value: '', label: '到期时间', placeholder: '请选择到期时间', type: 'select', data: DATE_CONST },
         { key: 'add_time', value: '', label: '注册时间', placeholder: '请选择到期时间', type: 'select', data: DATE_CONST },
       ];
+    },
+    batchPull() {
+      this.params.num = this.total;
+      getAllMember(this.params).then(res => {
+        excel.exportArrayToExcel({
+          title: ['用户名', '真实姓名', '手机号', '来源', '注册时间', '最后登录IP', '最后登录时间', '备注', '关键词'],
+          key: ['real_name', 'nick_name', 'phone', 'source', 'add_time', 'last_login_ip', 'last_login_time', 'remark', 'keyWord'],
+          data: res.data.list,
+          autoWidth: true,
+          filename: '用户',
+        });
+      });
+    },
+    // 按钮点击回调
+    functionClick(params) {
+      this[params]();
     },
   },
   mounted() {

@@ -11,13 +11,11 @@
           </el-form-item>
           <el-form-item label="支持">
             <el-select v-model="params.aid" placeholder="请选择" @change="searchList">
-              <el-option v-for="item in selectParams" :key="item.id" :label="item.real_name" :value="item.id">
-              </el-option>
+              <el-option v-for="item in selectParams" :key="item.id" :label="item.real_name" :value="item.id"> </el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-date-picker v-model="dateParams" clearable placeholder="选择周期" type="daterange"
-              value-format="yyyy-MM-dd HH:mm:ss" @change="searchList" />
+            <el-date-picker v-model="dateParams" clearable placeholder="选择周期" type="daterange" value-format="yyyy-MM-dd HH:mm:ss" @change="searchList" />
           </el-form-item>
         </el-form>
         <div>
@@ -25,7 +23,7 @@
           <el-button type="primary" @click="exportListData">导出</el-button>
         </div>
       </header>
-      <el-table border :header-cell-style="_headerCellStyle" :data="payOrderList">
+      <el-table border :header-cell-style="_headerCellStyle" :data="payOrderList" v-loading="tableLoading">
         <el-table-column prop="create_time" label="购买时间" width="140" align="center" />
         <el-table-column prop="phone" label="联系方式" width="110" align="center" />
         <el-table-column prop="source" label="用户来源" />
@@ -37,9 +35,7 @@
         <el-table-column prop="sn" label="订单编号" />
         <el-table-column label="标记">
           <template slot-scope="scope">
-            <el-image v-if="scope.row.remark_pic" class="img" :src="scope.row.remark_pic"
-              :preview-src-list="[scope.row.remark_pic]">
-            </el-image>
+            <el-image v-if="scope.row.remark_pic" class="img" :src="scope.row.remark_pic" :preview-src-list="[scope.row.remark_pic]"> </el-image>
             <!-- <img :src="s.row.remark_pic" v-if="s.row.remark_pic" /> -->
           </template>
         </el-table-column>
@@ -94,8 +90,7 @@
     <el-dialog title="标记订单" :visible.sync="orderMarkShow">
       <el-form :model="form" label-width="1rem" label-position="left" width="10rem">
         <el-form-item label="上传图片">
-          <el-upload class="upload-demo" action="http://nad.bdhuoke.com/admin/support/uploadImg" :multiple="false"
-            :limit="1" :headers="{ token }" :on-success="uploadSuccess">
+          <el-upload class="upload-demo" action="https://nad.bdhuoke.com/admin/support/uploadImg" :multiple="false" :limit="1" :headers="{ token }" :on-success="uploadSuccess">
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
@@ -113,7 +108,7 @@ import QRCode from 'qrcodejs2';
 import { formatDate } from '../../../utils';
 import { getPayOrder, getGoodList, saveOrder, wxPay, order_mark } from '../../../utils/api';
 import _ from 'lodash';
-import excel from "../../../vendor/Export2Excel";
+import excel from '../../../vendor/Export2Excel';
 export default {
   data() {
     return {
@@ -136,37 +131,28 @@ export default {
       orderMarkShow: false,
       token: '',
       // 标记订单参数
-      markForm: {},  // 输入防抖
+      markForm: {}, // 输入防抖
       debounceInput: _.debounce(() => {
         this.getPayOrder();
       }, 300),
       dateParams: [],
       selectParams: [],
+      tableLoading: false,
     };
   },
   methods: {
     exportListData() {
-      this.params.num = 99999
-      getPayOrder(this.params).then((res) => {
+      this.params.num = 99999;
+      getPayOrder(this.params).then(res => {
         res.data.list.forEach(item => {
-          item.create_time = formatDate(item.create_time * 1000, 'yyyy-MM-dd')
+          item.create_time = formatDate(item.create_time * 1000, 'yyyy-MM-dd');
         });
         excel.exportArrayToExcel({
-          title: [
-            "购买时间",
-            "联系方式",
-            "用户来源",
-            "关键词",
-            "注册时间",
-            "购买种类",
-            "购买金额",
-            "支持",
-            "订单编号",
-          ],
-          key: ["create_time", "phone", "source", "keyword", "add_time", "title", "price", "aid", "sn"],
+          title: ['购买时间', '联系方式', '用户来源', '关键词', '注册时间', '购买种类', '购买金额', '支持', '订单编号'],
+          key: ['create_time', 'phone', 'source', 'keyword', 'add_time', 'title', 'price', 'aid', 'sn'],
           data: res.data.list,
           autoWidth: true,
-          filename: "已支付订单",
+          filename: '已支付订单',
         });
       });
     },
@@ -175,12 +161,12 @@ export default {
         // 在params对象中删除star和end字段
         delete this.params.star;
         delete this.params.end;
-        this.getPayOrder()
-        return
+        this.getPayOrder();
+        return;
       }
       this.params.star = this.dateParams[0];
       this.params.end = this.dateParams[1];
-      this.getPayOrder()
+      this.getPayOrder();
     },
     // 更改页码
     changePage(page) {
@@ -189,13 +175,15 @@ export default {
     },
     // 已支付订单
     getPayOrder() {
+      this.tableLoading = true;
       getPayOrder(this.params).then(res => {
         res.data.list.forEach(item => {
           item.create_time = formatDate(item.create_time * 1000, 'yyyy-MM-dd hh:mm');
         });
         this.payOrderList = res.data.list;
         this.total = res.data.rows;
-        this.selectParams = res.data.select
+        this.selectParams = res.data.select;
+        this.tableLoading = false;
       });
     },
     // 获取商品列表
@@ -217,7 +205,7 @@ export default {
           this.$message.success('操作成功');
           this.dialogFormVisible = false;
         } else {
-          this.$message.error(res.msg)
+          this.$message.error(res.msg);
         }
       });
     },

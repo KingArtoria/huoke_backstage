@@ -14,7 +14,7 @@
             v-if="item.type === 'month'"> </el-date-picker>
         </el-form-item>
       </el-form>
-      <div style="width:216px">
+      <div style="width:312px">
         <el-button type="primary" v-for="(item, index) in functionParams" :key="index" @click="functionClick(item)">{{
             item.text
         }}</el-button>

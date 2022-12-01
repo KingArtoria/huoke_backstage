@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navigation @handleOpen="handleOpen" v-if="isShow" :defaultActive="defaultActive" />
-    <div class="app_1" :class="{is_login: !isShow}">
+    <div class="app_1" :class="{ is_login: !isShow }">
       <Breadcrumbs :breadcrumbs="breadcrumbs" v-if="isShow" @handleClick="handleClick" />
       <router-view />
     </div>
@@ -69,6 +69,7 @@ export default {
   },
   created() {
     Vue.prototype._tree = JSON.parse(localStorage.getItem('tree'));
+    console.log(this._tree)
     Vue.prototype._headerCellStyle = { background: '#f5f5f5', color: '#808080' };
   },
   watch: {
