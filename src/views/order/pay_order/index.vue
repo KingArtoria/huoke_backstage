@@ -11,11 +11,13 @@
           </el-form-item>
           <el-form-item label="支持">
             <el-select v-model="params.aid" placeholder="请选择" @change="searchList">
-              <el-option v-for="item in selectParams" :key="item.id" :label="item.real_name" :value="item.id"> </el-option>
+              <el-option v-for="item in selectParams" :key="item.id" :label="item.real_name" :value="item.id">
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-date-picker v-model="dateParams" clearable placeholder="选择周期" type="daterange" value-format="yyyy-MM-dd HH:mm:ss" @change="searchList" />
+            <el-date-picker v-model="dateParams" clearable placeholder="选择周期" type="daterange"
+              value-format="yyyy-MM-dd HH:mm:ss" @change="searchList" />
           </el-form-item>
         </el-form>
         <div>
@@ -33,9 +35,12 @@
         <el-table-column prop="price" label="购买金额" width="80" align="right" />
         <el-table-column prop="aid" label="支持" width="70" align="center" />
         <el-table-column prop="sn" label="订单编号" />
+        <el-table-column prop="pay_type" label="支付方式" align="center" width="90" />
+        <el-table-column prop="remark" label="备注" />
         <el-table-column label="标记">
           <template slot-scope="scope">
-            <el-image v-if="scope.row.remark_pic" class="img" :src="scope.row.remark_pic" :preview-src-list="[scope.row.remark_pic]"> </el-image>
+            <el-image v-if="scope.row.remark_pic" class="img" :src="scope.row.remark_pic"
+              :preview-src-list="[scope.row.remark_pic]"> </el-image>
             <!-- <img :src="s.row.remark_pic" v-if="s.row.remark_pic" /> -->
           </template>
         </el-table-column>
@@ -73,6 +78,9 @@
         <el-form-item label="赠送时长">
           <el-input v-model="form.give_time" type="number" placeholder="天(只填数字!只填数字!只填数字!)" />
         </el-form-item>
+        <el-form-item label="备注">
+          <el-input v-model="form.remark" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -90,7 +98,8 @@
     <el-dialog title="标记订单" :visible.sync="orderMarkShow">
       <el-form :model="form" label-width="1rem" label-position="left" width="10rem">
         <el-form-item label="上传图片">
-          <el-upload class="upload-demo" action="https://nad.bdhuoke.com/admin/support/uploadImg" :multiple="false" :limit="1" :headers="{ token }" :on-success="uploadSuccess">
+          <el-upload class="upload-demo" action="https://nad.bdhuoke.com/admin/support/uploadImg" :multiple="false"
+            :limit="1" :headers="{ token }" :on-success="uploadSuccess">
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
@@ -119,7 +128,9 @@ export default {
       // 列表参数
       params: { page: 1, num: 10 },
       // 创建订单参数
-      form: { give: 0, give_time: '', pay_type: 'wxpay' },
+      form: {
+        give: 0, give_time: '', pay_type: 'wxpay', remark: ""
+      },
       // 创建订单弹窗
       dialogFormVisible: false,
       // 商品列表
@@ -179,6 +190,28 @@ export default {
       getPayOrder(this.params).then(res => {
         res.data.list.forEach(item => {
           item.create_time = formatDate(item.create_time * 1000, 'yyyy-MM-dd hh:mm');
+          switch (item.pay_type) {
+            case 'wxpay':
+              item.pay_type = '微信支付';
+              break;
+            case 'alipay':
+              item.pay_type = '支付宝支付';
+              break;
+            case 'yhk':
+              item.pay_type = '银行卡支付';
+              break;
+            case 'dgzh':
+              item.pay_type = '对公打款';
+              break;
+            case 'bd':
+              item.pay_type = '补单';
+              break;
+            case '"wx_other':
+              item.pay_type = '微信转账';
+              break;
+            default:
+              item.pay_type = '未知';
+          }
         });
         this.payOrderList = res.data.list;
         this.total = res.data.rows;
@@ -204,6 +237,8 @@ export default {
         } else if (res.code == 2) {
           this.$message.success('操作成功');
           this.dialogFormVisible = false;
+          // 获取已支付订单
+          this.getPayOrder();
         } else {
           this.$message.error(res.msg);
         }

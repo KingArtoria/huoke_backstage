@@ -304,3 +304,11 @@ export const setstatus = data => {
     data: qs.stringify(data),
   });
 };
+/* 修改项目 */
+export const ComprehensiveEdit = data => {
+  return request({
+    method: 'POST',
+    url: '/Comprehensive/update',
+    data: qs.stringify(data),
+  });
+}
